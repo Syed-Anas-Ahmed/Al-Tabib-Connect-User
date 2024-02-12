@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading"; 
+import LoginScreen from "./screens/LoginScreen";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const [loading, setLoading] = useState(true);
+
+  const [loaded] = useFonts({
+    Poppins: require("./assets/fonts/Poppins-BoldItalic.ttf"),
+    PoppinsRegular: require("./assets/fonts/Poppins-Regular.ttf"),
+    PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
+    PoppinsMedium: require("./assets/fonts/Poppins-Medium.ttf"),
+  });
+
+  if (loading) {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }
+
+  if (!loaded || loading) {
+    return <AppLoading />;
+  } else {
+    return (
+      <KeyboardAvoidingView style={styles.container}>
+        <LoginScreen />
+        <StatusBar style="auto" />
+      </KeyboardAvoidingView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
