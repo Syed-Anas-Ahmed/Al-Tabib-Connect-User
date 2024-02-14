@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Otp = () => {
+const FollowUp = () => {
   return (
     <View>
       <Text>Otp</Text>
@@ -9,6 +9,6 @@ const Otp = () => {
   )
 }
 
-export default Otp
+export default FollowUp
 
 const styles = StyleSheet.create({})

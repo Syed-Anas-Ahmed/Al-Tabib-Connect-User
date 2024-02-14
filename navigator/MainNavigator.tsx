@@ -1,30 +1,29 @@
 import React from 'react'
-import LoginScreen from '../screens/RegisterScreen'
 import HomeScreen from '../screens/HomeScreen';
-import Inbox from '../screens/Inbox';
+import FollowUp from '../screens/FollowUp';
 import Profile from '../screens/Profile';
-import Onboarding from '../screens/Onboarding';
-import Otp from '../screens/Otp';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
-import RegisterScreen from '../screens/RegisterationScreen';
+import RegisterationScreen from '../screens/RegisterationScreen';
+import LoginScreen from '../screens/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeTab = () => (
   <Stack.Navigator>
-    <Stack.Screen name="h" component={HomeScreen} options={{headerShown:false}}/>
+    <Stack.Screen name="hm" component={HomeScreen} options={{headerShown:false}}/>
   </Stack.Navigator>
 );
 
-const InboxTab = () => (
+const FollowUpTab = () => (
   <Stack.Navigator>
-    <Stack.Screen name="i" component={Inbox} options={{headerShown:false}}/>
+    <Stack.Screen name="flwUp" component={FollowUp} options={{headerShown:false}}/>
   </Stack.Navigator>
 );
+
 const ProfileTab = () => (
   <Stack.Navigator>
     <Stack.Screen name="pr" component={Profile} options={{headerShown:false}}/>
@@ -45,16 +44,15 @@ const TabNavigator = () => (
         headerShown: false,
       }}
     />
-
-<Tab.Screen
-      name="Inbox"
-      component={InboxTab}
+    <Tab.Screen
+      name="FollowUp"
+      component={FollowUpTab}
       options={{
-        tabBarIcon: ({color}) => <AntDesign name="inbox" size={30} color={color} />,
+        tabBarIcon: ({color}) => <AntDesign name="search1" size={30} color={color} />,
         headerShown: false,
-        
       }}
     />
+
 <Tab.Screen
       name="Profile"
       component={ProfileTab}
@@ -67,24 +65,10 @@ const TabNavigator = () => (
   </Tab.Navigator>
 );
 
-const RootNavigator = () => {
+const MainNavigator = () => {
   return (
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="Onboarding">
-      <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Register"
-        component={RegisterScreen}
-        options={{
-          headerShown: false,
-        }}
-        />
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="Login"
         component={LoginScreen}
@@ -92,13 +76,6 @@ const RootNavigator = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="Otp"
-        component={Otp}
-        options={{
-          headerShown: false,
-        }}
-        />
       <Stack.Screen
         name="TabNavigator"
         component={TabNavigator}
@@ -111,4 +88,4 @@ const RootNavigator = () => {
   )
 }
 
-export default RootNavigator
+export default MainNavigator

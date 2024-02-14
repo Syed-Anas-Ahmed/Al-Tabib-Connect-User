@@ -10,9 +10,11 @@ import { useState } from 'react';
 import { inputStyles,fonts,FontColors,dateModal } from '../constants';
 
 
+interface DatePickerProps {
+  onDateChange: (date: DateType) => void;
+}
 
-
-const DatePicker = () => {
+const DatePicker: React.FC<DatePickerProps> = ({ onDateChange }) => {
     const [datevalue, setdateValue] = useState<DateType>(dayjs());
     const [showModal, setShowModal] = useState(false);
     const [DateVisible, setDateVisible] = useState(false)
@@ -23,12 +25,17 @@ const DatePicker = () => {
         setShowModal(!showModal);
         setDateVisible(true)
     }
+
+    const handleDateChange = (date: DateType) => {
+      setdateValue(date);
+      onDateChange(date);
+    };
         
 
   return (
     <View style={{ paddingVertical: 30 }}>
     <View style={inputStyles.userField}>
-      <AntDesign name="calendar" size={30} color="#0ab99c" />
+      <AntDesign name="calendar" size={20} color="#0ab99c" />
       <TouchableOpacity
         style={dateModal.button}
         onPress={() => OpenModal()}
@@ -50,7 +57,7 @@ const DatePicker = () => {
               selectedItemColor="#0ab99c"
               value={datevalue}
               locale={"en"}
-              onValueChange={(date) => setdateValue(date)}
+              onValueChange={(date) => handleDateChange(date)}
               mode="date"
             />
             <View style={dateModal.footerContainer}>

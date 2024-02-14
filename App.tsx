@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading"; 
+import AppLoading from "expo-app-loading";
 import LoginScreen from "./screens/LoginScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import RegisterScreen from "./screens/RegisterScreen";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TabScreen from "./screens/TabScreen";
+
+const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -15,20 +22,23 @@ export default function App() {
     PoppinsMedium: require("./assets/fonts/Poppins-Medium.ttf"),
   });
 
-  if (loading) {
-    setTimeout(() => {
+   if (loading) {
+     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 1000);
   }
 
   if (!loaded || loading) {
     return <AppLoading />;
   } else {
     return (
-      <KeyboardAvoidingView style={styles.container}>
-        <LoginScreen />
-        <StatusBar style="auto" />
-      </KeyboardAvoidingView>
+      <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen name="Tabs" component={TabScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="Login" component={LoginScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="Register" component={RegisterScreen} options={{headerShown:false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
     );
   }
 }

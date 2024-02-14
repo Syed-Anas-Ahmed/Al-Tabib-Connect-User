@@ -1,20 +1,27 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet,Dimensions } from "react-native";
+const cardWidth = Dimensions.get("screen").width * 0.93;
+const cardHeight = Dimensions.get("screen").height / 1.9;
 
 export const fonts = StyleSheet.create({
   heading: {
-    textAlign: "center",
     fontFamily: "PoppinsSemiBold",
     fontSize: 32,
   },
   sub: {
-    textAlign: "center",
     fontFamily: "PoppinsRegular",
     fontSize: 20,
   },
+  subBold:{
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 20,
+  },
   normal: {
-    textAlign: "center",
     fontFamily: "PoppinsRegular",
-    fontSize: 18,
+    fontSize: 16,
+  },
+  normalBold: {
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 16,
   },
 });
 
@@ -23,13 +30,16 @@ export const FontColors = StyleSheet.create({
     color: "#0ab99c",
   },
   primaryDark: {
-    color: "#016b5a",
+    color: "#0e9680",
   },
   whiteFont: {
     color: "white",
   },
   blackFont: {
     color: "black",
+  },
+  blue: {
+    color: "#36b5ff",
   },
 });
 
@@ -88,7 +98,7 @@ export const inputStyles = StyleSheet.create({
     borderBottomColor: "#0ab99c",
     borderBottomWidth: 2,
     flex: 1,
-    fontSize: 18,
+    fontSize: 14,
   },
 });
 export const genderPicker = StyleSheet.create({
@@ -105,7 +115,7 @@ export const genderPicker = StyleSheet.create({
   },
   labelStyle: {
     color: "gray",
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: "PoppinsRegular",
   },
   dropDownContainerStyle: {
@@ -116,12 +126,12 @@ export const genderPicker = StyleSheet.create({
   },
   placeholderStyle: {
     color: "gray",
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "PoppinsRegular",
   },
   listItemLabelStyle: {
     color: "#0ab99c",
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "PoppinsRegular",
   },
 });
@@ -162,20 +172,79 @@ export const dateModal = StyleSheet.create({
 });
 
 export const form = StyleSheet.create({
-    layout: {
-      paddingVertical: 15,
-      justifyContent: "center",
-      paddingHorizontal: 15,
-      backgroundColor: "white",
-      width: "100%",
-      borderRadius: 10,
-    }
-  });
+  layout: {
+    paddingVertical: 15,
+    justifyContent: "center",
+    paddingHorizontal: 15,
+    backgroundColor: "white",
+    width: "100%",
+    borderRadius: 10,
+  },
+});
 export const btns = StyleSheet.create({
-    btnPrimary: {
-        padding: 20,
-        borderRadius: 10,
-      },
-  });
+  btnPrimary: {
+    padding: 10,
+    borderRadius: 5,
+  },
+});
+export const RegLog = StyleSheet.create({
+  onPressStyle: {
+    paddingTop: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 5,
+  },
+});
 
-  
+export const MenuStyle = StyleSheet.create({
+  cardContainer: {
+    width: cardWidth,
+    height: cardHeight,
+    backgroundColor: "white",
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 15,
+  },
+  itemContainer: {
+    paddingVertical: 10,
+  },
+  doctorInfoContainer: {
+    flexDirection: "row",
+    gap: 15,
+  },
+  doctorImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  doctorDetailsContainer: {
+    alignItems: "flex-start",
+    justifyContent: "center",
+    flex: 1,
+  },
+  clinicContainer: {
+    alignItems: "flex-start",
+    width: cardWidth,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginHorizontal: 5,
+    borderRadius: 5,
+  },
+  paginationContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  paginationDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 4,
+    backgroundColor: "#0ab99c",
+  },
+  activeDot: {
+    backgroundColor: "#0c6657", 
+  },
+});

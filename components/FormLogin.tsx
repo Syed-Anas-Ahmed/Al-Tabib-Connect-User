@@ -2,32 +2,20 @@ import { Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import InputField from "./InputField";
 import CusButton from "./CusButton";
-import GenderPick from "./GenderPick";
-import DatePicker from "./DatePicker";
 import { FontColors, RegLog, fonts, form } from "../constants";
-import dayjs from "dayjs";
-import { DateType } from "react-native-ui-datepicker";
 
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import { useNavigation } from "@react-navigation/native";
 
-const Form = () => {
+
+
+const FormLogin= () => {
 
   const navigation = useNavigation();
 
-  const [name, setName] = useState("");
   const [num, setNum] = useState("");
   const [pass, setPass] = useState("");
-  const [gender, setGender] = useState("");
-  const [selectedDate, setSelectedDate] = useState<DateType>(dayjs());
 
-  const loginNavi = () => {
-    //Navigate.navigate("Login");
-  };
-
-  const handleDateChange = (date: DateType) => {
-    setSelectedDate(date);
-  };
 
   const validateNum = (num: string) => {
     if (num.length < 5) {
@@ -38,13 +26,8 @@ const Form = () => {
     }
   };
 
-  const emptyFields = (
-    num: string,
-    name: string,
-    password: string,
-    gender: string
-  ) => {
-    if (!num || !name || !password || !gender) {
+  const emptyFields = (num: string, password: string) => {
+    if (!num || !password) {
       console.log("Please fill all fields");
       return false;
     } else {
@@ -56,16 +39,12 @@ const Form = () => {
     setNum(text);
   };
 
-  const handleNameChange = (text: string) => {
-    setName(text);
-  };
-
   const handlePassChange = (text: string) => {
     setPass(text);
   };
 
   const handleSubmit = () => {
-    if (!validateNum(num) || !emptyFields(num, name, pass, gender)) {
+    if (!validateNum(num) || !emptyFields(num, pass)) {
       {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
@@ -77,13 +56,10 @@ const Form = () => {
     } else {
       console.log("Form submitted successfully");
       console.log(
-        `Name: ${name}, Phone: ${num}, Password:${pass}, gender:${gender}, date:${selectedDate}`
+        `Phone: ${num}, Password:${pass}`
       );
+      navigation.navigate("Tabs")
     }
-  };
-
-  const handleGenderChange = (selectedGender: string) => {
-    setGender(selectedGender);
   };
 
   return (
@@ -97,32 +73,24 @@ const Form = () => {
         maxLength={11}
       />
       <InputField
-        onChangeText={handleNameChange}
-        icon="user"
-        placeholder="Enter Your Name"
-        keyBrdTyp="default"
-        secure={false}
-        maxLength={50}
-      />
-      <InputField
         onChangeText={handlePassChange}
         icon="lock"
         placeholder="Enter Your Password"
         keyBrdTyp="default"
         secure={true}
       />
-      <GenderPick onGenderChange={handleGenderChange} />
-      <DatePicker onDateChange={handleDateChange} />
-      <CusButton btnText="Register" onPress={handleSubmit}></CusButton>
-      <View style={RegLog.onPressStyle}>
+      <CusButton btnText="Login" onPress={handleSubmit}></CusButton>
+      <View
+        style={RegLog.onPressStyle}
+      >
         <Text style={[fonts.normal, FontColors.primaryFont]}>
-          Already have an account?
+          Don't have an account?
         </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <Text style={[fonts.normal, FontColors.blue]}>Login</Text>
+        <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
+          <Text style={[fonts.normal, FontColors.blue]}>Register</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-export default Form;
+export default FormLogin;
