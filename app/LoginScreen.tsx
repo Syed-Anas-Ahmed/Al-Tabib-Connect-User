@@ -19,7 +19,7 @@ const LoginScreen = () => {
     <SafeAreaView style={containers.fullScreen}>
       <AlertNotificationRoot>
         <LinearGradient
-          colors={["#0ab99c", "#238f57", "#51bcc4"]}
+          colors={["#08B89D", "#D2F9F1"]}
           style={[paddings.primaryPad, gradient.linear]}
         >
           <Text style={[fonts.heading, FontColors.whiteFont]}>Login</Text>

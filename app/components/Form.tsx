@@ -1,7 +1,6 @@
 import { Modal, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import dayjs from 'dayjs';
 import React, { useState } from "react";
-// import CusButton from "./CusButton";
 import {
   FontColors,
   RegLog,
@@ -15,12 +14,10 @@ import {
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
-import { Label, Separator, Spinner, XStack } from "tamagui";
+import { Separator, Spinner, XStack } from "tamagui";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
-
 import { YStack} from "tamagui";
-
 import { BlurView } from "expo-blur";
 import DateTimePicker, { DateType } from "react-native-ui-datepicker";
 

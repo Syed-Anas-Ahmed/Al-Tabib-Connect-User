@@ -4,19 +4,17 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import React from "react";
-import { Card, Image, Separator, XStack, YStack } from "tamagui";
+import { Card, Separator, XStack, YStack } from "tamagui";
 import primColor, { FontColors, fonts } from "~/app/constants";
 import { Pagination } from "react-native-snap-carousel";
 import Data from "../../Data";
 import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useDispatch } from "react-redux";
-
 import { addAppointment } from "../../context/actions/appointmentActions";
-
-import {Clinic} from "../../context/types"
 
 const cardWidth = (Dimensions.get("window").width / 2.2) * 2 + 10;
 
@@ -28,15 +26,11 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
   const [activeSlide, setActiveSlide] = React.useState(0);
   const dispatch = useDispatch();
 
-
-  const handleGetAppointment = (doctorId: number, clinicId: number, clinic: Clinic) => {
-    dispatch(addAppointment(doctorId, clinicId, clinic));
-    console.log("clinic: ", clinic)
-    console.log("doctor: ", doctorId)
-    console.log("clinic ID: ", clinicId)
+  const handleGetAppointment = (doc: any, clinic: any) => {
+    dispatch(addAppointment(doc, clinic));
     router.navigate("BookAppointment");
   };
-  
+
   return (
     <Card
       borderWidth={1}
@@ -54,17 +48,17 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
         {heading}
       </Text>
       <FlatList
-        snapToInterval={cardWidth * 1.2}
+        snapToInterval={cardWidth}
         decelerationRate="fast"
-        onScroll={() => {
-          setActiveSlide(0);
-        }}
         data={Data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <YStack>
             <XStack>
-              <Image source={item.drImage} width={100} height={100} />
+              <Image
+                source={item.drImage}
+                style={{ width: 100, height: 100 }}
+              />
               <YStack justifyContent="center">
                 <Text style={[FontColors.primaryDark, fonts.normalBold]}>
                   {item.drName}
@@ -108,7 +102,7 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
                   </Text>
                   <XStack justifyContent="space-between" gap={10}>
                     <TouchableOpacity
-                    onPress={() => handleGetAppointment(item.id, clinic.id, clinic)}
+                      onPress={() => handleGetAppointment(item, clinic)}
                       style={{
                         flex: 1,
                         backgroundColor: "#0ab99c",
@@ -154,17 +148,16 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
                 inactiveDotOpacity={0.4}
                 inactiveDotScale={0.6}
               />
-              <XStack alignItems="center" gap={15}>
-                <AntDesign name="leftcircle" size={20} color="#0ab99c" />
-                <Text style={[fonts.normalBold, { color: "#c0c0c0" }]}>
-                  Swipe to see more
-                </Text>
-                <AntDesign name="rightcircle" size={20} color="#0ab99c" />
-              </XStack>
             </YStack>
           </YStack>
         )}
       />
+      <XStack alignSelf="center" alignItems="center" gap={15}>
+        <Text style={[fonts.normalBold, { color: "#c0c0c0" }]}>
+          Swipe to see more
+        </Text>
+        <AntDesign name="rightcircle" size={20} color="#0ab99c" />
+      </XStack>
     </Card>
   );
 };

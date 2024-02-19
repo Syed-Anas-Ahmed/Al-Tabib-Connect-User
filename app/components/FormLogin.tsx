@@ -1,6 +1,5 @@
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
-// import CusButton from "./CusButton";
 import {
   FontColors,
   RegLog,
@@ -10,7 +9,6 @@ import {
   themeColors,
 } from "../constants";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
-import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { Separator, Spinner, XStack } from "tamagui";
 import { AntDesign } from "@expo/vector-icons";
@@ -18,7 +16,6 @@ import { Link, router } from "expo-router";
 
 
 const FormLogin = () => {
-  const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
 
   const [num, setNum] = useState("");

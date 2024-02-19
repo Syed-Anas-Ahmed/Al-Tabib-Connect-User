@@ -1,34 +1,37 @@
 import { Text, ToastAndroid, TouchableOpacity } from "react-native";
 import React from "react";
 import { Card, XStack } from "tamagui";
-
 import dayjs from "dayjs";
 import "dayjs/locale/en";
-
-dayjs.locale("en");
-
 import { Dimensions } from "react-native";
 import { FontColors, fonts, themeColors } from "../constants";
 import { router } from "expo-router";
 import { useSelector } from "react-redux";
 
+dayjs.locale("en");
+
 const cardWidth = Dimensions.get("window").width - 30;
 
-// Define the type for the Redux store state
-
-
 const GetAppComponent = () => {
-  const clinicDetails = useSelector((state:any) => state.appointmentReducer.clinicDetails);
-  console.log("clinicDetails: ", clinicDetails)
+
+  const data = useSelector((state: any) => state.appointments);
+
+  console.log(JSON.stringify(data,null,2))
+
+  // Last Appointment Details
+  const docs = data[data.length-1].doc;
+  const clinics = data[data.length-1].clinic;
+
+
   const dispactBooked = () => {
     ToastAndroid.show("Appointment Booked", ToastAndroid.LONG);
     setTimeout(() => {
-      router.replace("../navigator/MenuScreen");
+      router.replace("../navigator/MainNavigator");
     }, 2000);
   };
   const cancelBooking = () => {
     setTimeout(() => {
-      router.replace("../navigator/Home");
+      router.replace("../navigator/MainNavigator");
     }, 0);
   };
 
@@ -50,33 +53,26 @@ const GetAppComponent = () => {
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>
           Doctor Name:
         </Text>
-        <Text style={[FontColors.blackFont, fonts.normal]}>
-          {}
-        </Text>
+        <Text style={[FontColors.blackFont, fonts.normal]}>{docs.drName}</Text>
       </XStack>
       <XStack gap={5}>
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>
           Qualification:
         </Text>
-        <Text style={[FontColors.blackFont, fonts.normal]}>
-          {}
-        </Text>
+        <Text style={[FontColors.blackFont, fonts.normal]}>{docs.drQual}</Text>
       </XStack>
       <XStack gap={5}>
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>
           Clinic Name:
         </Text>
-        <Text style={[FontColors.blackFont, fonts.normal]}>
-          {}
-        </Text>
+        <Text style={[FontColors.blackFont, fonts.normal]}>{clinics.clinicName}</Text>
+        
       </XStack>
       <XStack gap={5}>
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>
           Patient Name:
         </Text>
-        <Text style={[FontColors.blackFont, fonts.normal]}>
-          {}
-        </Text>
+        <Text style={[FontColors.blackFont, fonts.normal]}>{}</Text>
       </XStack>
       <XStack gap={5} justifyContent="space-between">
         <TouchableOpacity

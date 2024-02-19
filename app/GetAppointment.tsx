@@ -2,7 +2,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { paddings, gradient, fonts, FontColors, themeColors } from './constants'
-import BookingComponents from './components/BookingComponents'
 import { Text } from 'react-native'
 import GetAppComponent from './components/GetAppComponent'
 

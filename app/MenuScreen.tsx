@@ -8,7 +8,7 @@ import { gradient, paddings } from "./constants";
 const MenuScreen = () => {
   return (
     <LinearGradient
-      colors={["#0ab99c", "#238f57", "#51bcc4"]}
+    colors={["#08B89D", "#D2F9F1"]}
       style={[paddings.primaryPad, gradient.linear]}
     >
       <SafeAreaView style={{ flex: 1, padding: 15 }}>

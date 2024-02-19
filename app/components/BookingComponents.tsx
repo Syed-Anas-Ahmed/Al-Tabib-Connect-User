@@ -1,19 +1,9 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  ToastAndroid,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { Card, XStack, YStack } from "tamagui";
-
 import Patients from "../Patients";
-
 import { Dimensions } from "react-native";
-import { FontColors, fonts, paddings, themeColors } from "../constants";
-import CusButton from "./CusButton";
+import { FontColors, fonts, themeColors } from "../constants";
 import { router } from "expo-router";
 
 const cardWidth = Dimensions.get("window").width - 15;
@@ -22,7 +12,6 @@ const BookingComponents = () => {
   const dispactBooked = () => {
     router.navigate("../GetAppointment");
   };
-
   return (
     <YStack
       flex={1}
@@ -102,5 +91,3 @@ const BookingComponents = () => {
 };
 
 export default BookingComponents;
-
-const styles = StyleSheet.create({});

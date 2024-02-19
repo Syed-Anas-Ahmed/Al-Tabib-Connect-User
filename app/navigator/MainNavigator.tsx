@@ -5,14 +5,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import MenuScreen from "../MenuScreen";
 import { LinearGradient } from "expo-linear-gradient";
-import { gradient, paddings } from "../constants";
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigator = () => {
   return (
     <LinearGradient
-      colors={["#0ab99c", "#238f57", "#51bcc4"]}
+    colors={["#08B89D", "#D2F9F1"]}
       style={{ flex: 1 }}
     >
       <Tab.Navigator
@@ -26,7 +25,6 @@ const MainNavigator = () => {
             borderTopRightRadius: 30,
             backgroundColor: "#f5f5f5",
             height: 70,
-            //justifyContent: "center",
             paddingTop: 10,
             paddingBottom: 10,
           },
