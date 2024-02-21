@@ -26,7 +26,7 @@ export default function index() {
     PoppinsRegular: require("../assets/fonts/Poppins-Regular.ttf"),
     PoppinsSemiBold: require("../assets/fonts/Poppins-SemiBold.ttf"),
     PoppinsMedium: require("../assets/fonts/Poppins-Medium.ttf"),
-    Arial: require("../assets/fonts/Arial.ttf"),
+    //Arial: require("../assets/fonts/Arial.ttf"),
   });
 
   useEffect(() => {

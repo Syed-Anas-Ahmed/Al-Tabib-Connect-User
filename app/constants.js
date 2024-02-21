@@ -45,7 +45,7 @@ export const FontColors = StyleSheet.create({
     color: "black",
   },
   blue: {
-    color: "#36b5ff",
+    color: "#00a2ff",
   },
 });
 
@@ -64,7 +64,6 @@ export const corners = StyleSheet.create({
 export const containers = StyleSheet.create({
   fullScreen: {
     flex: 1,
-    width: "100%",
   },
 });
 
@@ -185,8 +184,10 @@ export const dateModal = StyleSheet.create({
 
 export const form = StyleSheet.create({
   layout: {
+    borderColor: "#ebebeb",
+    borderWidth: 1,
     justifyContent: "center",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#ffffff",
     width: "100%",
     borderRadius: 10,
     gap: 10,

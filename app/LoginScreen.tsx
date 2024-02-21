@@ -1,8 +1,18 @@
-import { SafeAreaView, Text } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { fonts, FontColors, paddings, gradient, containers } from "./constants";
 import { AlertNotificationRoot } from "react-native-alert-notification";
 import FormLogin from "./components/FormLogin";
+import { colors, textStyles } from "./styles";
+import React from "react";
 
 const myCustomColors = {
   label: "#ff0000", // Example color values
@@ -16,17 +26,29 @@ const myCustomColors = {
 
 const LoginScreen = () => {
   return (
-    <SafeAreaView style={containers.fullScreen}>
-      <AlertNotificationRoot>
-        <LinearGradient
-          colors={["#08B89D", "#D2F9F1"]}
-          style={[paddings.primaryPad, gradient.linear,{gap:10}]}
+    <AlertNotificationRoot>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          style={[containers.fullScreen]}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <Text style={[fonts.heading, FontColors.whiteFont]}>Login</Text>
-          <FormLogin />
-        </LinearGradient>
-      </AlertNotificationRoot>
-    </SafeAreaView>
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps="handled"
+          >
+            <LinearGradient
+            locations={[0.3,0.5,0.8]}
+              colors={[colors.gradPrim,"white", colors.gradSec]}
+              style={[paddings.primaryPad, gradient.linear, { gap: 10 }]}
+            >
+              <Text style={[textStyles.heading]}>Login</Text>
+              <Text style={[textStyles.normal, { textAlign: "center" }]}>You can search Doctors, Book Appointments & check Medical History</Text>
+              <FormLogin />
+            </LinearGradient>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </AlertNotificationRoot>
   );
 };
 

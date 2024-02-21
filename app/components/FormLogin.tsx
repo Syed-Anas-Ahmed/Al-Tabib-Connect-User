@@ -1,6 +1,21 @@
-import { Dimensions,Text,TextInput,TouchableOpacity,View } from "react-native";
+import {
+  Dimensions,
+  Keyboard,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React, { useState } from "react";
-import { FontColors, RegLog, btns, fonts,form,themeColors } from "../constants";
+import {
+  FontColors,
+  RegLog,
+  btns,
+  fonts,
+  form,
+  themeColors,
+} from "../constants";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import * as SecureStore from "expo-secure-store";
 import { Separator, XStack } from "tamagui";
@@ -8,6 +23,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 import axios from "axios";
 import * as Progress from "react-native-progress";
+import { buttons, colors, fontSizes, fontsFams } from "../styles";
 
 const screenwidth = Dimensions.get("screen").width;
 
@@ -19,17 +35,11 @@ const FormLogin = () => {
   const validateNum = (num: string) => num.length >= 11;
   const isEmptyString = (str: string) => str.trim() === "";
 
-  const emptyFields = (
-    num: string,
-    password: string,
-  ) => ![num, password].some(isEmptyString);
+  const emptyFields = (num: string, password: string) =>
+    ![num, password].some(isEmptyString);
 
-  const validateSubmit = (
-    num: string,
-    password: string,
-  ) =>
-    validateNum(num) &&
-    emptyFields(num, password)
+  const validateSubmit = (num: string, password: string) =>
+    validateNum(num) && emptyFields(num, password);
 
   const handleNumChange = (text: string) => {
     setNum(text);
@@ -68,10 +78,10 @@ const FormLogin = () => {
   const currentTimeStamp = getCurrentTimestamp();
 
   //USE YOUR OWN URL!!
-  const url = `http://192.168.100.48:8085`
+  const url = `http://192.168.100.48:8085`;
 
   const loginUrl = `${url}/login?username=${num}&password=${pass}&UUID=${currentTimeStamp}&type=2`;
-  
+
   const fetchLoginData = () => {
     axios
       .get(loginUrl)
@@ -153,10 +163,12 @@ const FormLogin = () => {
           gap={10}
           backgroundColor={"white"}
           flex={1}
+          borderColor={"#ebebeb"}
+          borderWidth={1}
           borderRadius={5}
           padding={10}
         >
-          <AntDesign name="user" size={24} color="#0ab99c" />
+          <AntDesign name="user" size={24} color={colors.primary} />
           <Separator vertical borderColor={"lightgray"} />
           <TextInput
             keyboardType="numeric"
@@ -173,10 +185,12 @@ const FormLogin = () => {
           gap={10}
           backgroundColor={"white"}
           flex={1}
+          borderColor={"#ebebeb"}
+          borderWidth={1}
           borderRadius={5}
           padding={10}
         >
-          <AntDesign name="lock" size={24} color="#0ab99c" />
+          <AntDesign name="lock" size={24} color={colors.primary} />
           <Separator vertical borderColor={"lightgray"} />
           <TextInput
             style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
@@ -191,26 +205,19 @@ const FormLogin = () => {
       <TouchableOpacity
         onPress={handleSubmit}
         style={[
-          themeColors.primary,
-          btns.btnPrimary,
-          {
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 10,
-          },
+          buttons.primaryBtn,
         ]}
       >
         <Text style={[fonts.subBold, FontColors.whiteFont]}>Login</Text>
       </TouchableOpacity>
 
       <View style={[RegLog.onPressStyle, { zIndex: -1000 }]}>
-        <Text style={[fonts.normalBold, FontColors.primaryFont]}>
+        <Text style={[{fontSize:fontSizes.SM, fontFamily:fontsFams.poppinsMedium ,color:colors.primary}]}>
           Don't have an account?
         </Text>
         <Link href="/RegisterScreen" asChild>
           <TouchableOpacity>
-            <Text style={[fonts.normalBold, FontColors.blue]}>Register</Text>
+            <Text style={[{fontSize:fontSizes.SM, fontFamily:fontsFams.poppinsMedium ,color:colors.linkBlue}]}>Register</Text>
           </TouchableOpacity>
         </Link>
       </View>
