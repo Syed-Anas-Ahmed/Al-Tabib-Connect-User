@@ -81,7 +81,10 @@ const Form = () => {
   };
 
   const encodedPatient = encodeURIComponent(JSON.stringify(patient));
-  const loginUrl = `http://192.168.100.48:8085/registerPatient?patient=${encodedPatient}&uuid=123&type=2`;
+
+  //USE YOUR OWN URL!!
+  const url = `http://192.168.100.48:8085`
+  const loginUrl = `${url}/registerPatient?patient=${encodedPatient}&uuid=123&type=2`;
 
   const fetchRegisterData = () => {
     axios

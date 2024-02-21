@@ -1,22 +1,9 @@
-import {
-  Dimensions,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions,Text,TextInput,TouchableOpacity,View } from "react-native";
 import React, { useState } from "react";
-import {
-  FontColors,
-  RegLog,
-  btns,
-  fonts,
-  form,
-  themeColors,
-} from "../constants";
+import { FontColors, RegLog, btns, fonts,form,themeColors } from "../constants";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import * as SecureStore from "expo-secure-store";
-import { Separator, Spinner, XStack } from "tamagui";
+import { Separator, XStack } from "tamagui";
 import { AntDesign } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 import axios from "axios";
@@ -26,32 +13,23 @@ const screenwidth = Dimensions.get("screen").width;
 
 const FormLogin = () => {
   const [loading, setLoading] = useState(false);
-
   const [num, setNum] = useState("");
-  const [userName, setuserName] = useState("03323403109");
-  const [pass, setPass] = useState("password123");
+  const [pass, setPass] = useState("");
 
-  const validateNum = (num: string) => {
-    if (num.length < 5) {
-      console.log("Phone number is too short");
-      return false;
-    } else {
-      return true;
-    }
-  };
+  const validateNum = (num: string) => num.length >= 11;
+  const isEmptyString = (str: string) => str.trim() === "";
 
-  const emptyFields = (num: string, userName: string) => {
-    if (!num || !userName) {
-      console.log("Please fill all fields");
-      return false;
-    } else {
-      return true;
-    }
-  };
+  const emptyFields = (
+    num: string,
+    password: string,
+  ) => ![num, password].some(isEmptyString);
 
-  const handleUserNameChange = (text: string) => {
-    setuserName(text);
-  };
+  const validateSubmit = (
+    num: string,
+    password: string,
+  ) =>
+    validateNum(num) &&
+    emptyFields(num, password)
 
   const handleNumChange = (text: string) => {
     setNum(text);
@@ -62,17 +40,15 @@ const FormLogin = () => {
   };
 
   const handleSubmit = () => {
-    setLoading(true);
-    if (!emptyFields(userName, pass)) {
-      {
-        Dialog.show({
-          type: ALERT_TYPE.DANGER,
-          title: "Error",
-          textBody: "please fill all details correctly",
-          button: "close",
-        });
-      }
+    if (!validateSubmit(num, pass)) {
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Error",
+        textBody: "Please fill all details correctly",
+        button: "Close",
+      });
     } else {
+      setLoading(true);
       fetchLoginData();
     }
   };
@@ -80,7 +56,7 @@ const FormLogin = () => {
   const getCurrentTimestamp = () => {
     const now = new Date();
     const date = now.getDate().toString().padStart(2, "0");
-    const month = (now.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed, so add 1
+    const month = (now.getMonth() + 1).toString().padStart(2, "0");
     const year = now.getFullYear().toString();
     const hours = now.getHours().toString().padStart(2, "0");
     const minutes = now.getMinutes().toString().padStart(2, "0");
@@ -91,12 +67,11 @@ const FormLogin = () => {
 
   const currentTimeStamp = getCurrentTimestamp();
 
+  //USE YOUR OWN URL!!
   const url = `http://192.168.100.48:8085`
 
-  const loginUrl = `${url}/login?username=${userName}&password=${pass}&UUID=${currentTimeStamp}&type=2`;
- 
-  // const loginUrl = `http://192.168.100.48:8085/login?username=${userName}&password=${pass}&UUID=${currentTimeStamp}&type=2`;
- 
+  const loginUrl = `${url}/login?username=${num}&password=${pass}&UUID=${currentTimeStamp}&type=2`;
+  
   const fetchLoginData = () => {
     axios
       .get(loginUrl)
@@ -115,17 +90,17 @@ const FormLogin = () => {
             .then(() => {
               setTimeout(() => {
                 console.log("Token stored successfully");
-                router.navigate("./navigator/MainNavigator");
+                router.replace("./navigator/MainNavigator");
                 setLoading(false);
               }, 3000);
             })
             .catch((error) => {
               console.error("Error storing token: ", error);
-              //setLoading(false);
+              setLoading(false);
             });
         } else {
           console.log("Error, Status code: ", response.status);
-          //setLoading(false);
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -133,14 +108,13 @@ const FormLogin = () => {
           console.error("Server Error:", error.response.data);
           console.error("Status Code:", error.response.status);
           console.error("Headers:", error.response.headers);
-          //setLoading(false);
+          setLoading(false);
         } else if (error.request) {
           console.error("No response received:", error.request);
-          //setLoading(false);
+          setLoading(false);
         } else {
-          // Something happened in setting up the request that triggered an Error
           console.error("Request Error:", error.message);
-          //setLoading(false);
+          setLoading(false);
         }
       });
   };
@@ -186,11 +160,10 @@ const FormLogin = () => {
           <Separator vertical borderColor={"lightgray"} />
           <TextInput
             keyboardType="numeric"
-            value="03323403109"
             maxLength={11}
             style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
             placeholder="Enter Your Username"
-            onChangeText={handleUserNameChange}
+            onChangeText={handleNumChange}
             placeholderTextColor="#808080a4"
           />
         </XStack>
@@ -206,13 +179,12 @@ const FormLogin = () => {
           <AntDesign name="lock" size={24} color="#0ab99c" />
           <Separator vertical borderColor={"lightgray"} />
           <TextInput
-            value="password123"
             style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
             placeholder="Enter Your Password"
             onChangeText={handlePassChange}
             placeholderTextColor="#808080a4"
             autoCapitalize="none"
-            //secureTextEntry={true}
+            secureTextEntry={true}
           />
         </XStack>
       </XStack>
