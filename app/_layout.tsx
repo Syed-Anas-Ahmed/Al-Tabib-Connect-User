@@ -2,7 +2,6 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack, Tabs } from "expo-router";
 import { useEffect } from "react";
 import { TamaguiProvider } from "tamagui";
-
 import config from "../tamagui.config";
 import { StatusBar } from "expo-status-bar";
 import { Provider } from "react-redux";

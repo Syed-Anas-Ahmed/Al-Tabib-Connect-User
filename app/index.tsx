@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen"; // Import SplashScreen
+import * as SplashScreen from "expo-splash-screen";
 import LoginScreen from "./LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import RegisterScreen from "./RegisterScreen";
