@@ -81,13 +81,19 @@ export const themeColors = StyleSheet.create({
     backgroundColor: "#0ab99c",
   },
   primaryDark: {
-    backgroundColor: "#016b5a",
+    backgroundColor: "#6b010139",
   },
   white: {
     backgroundColor: "white",
   },
   black: {
     backgroundColor: "black",
+  },
+  yellow: {
+    backgroundColor: "#ffa600",
+  },
+  blue: {
+    backgroundColor: "#0044ff",
   },
 });
 
@@ -110,16 +116,15 @@ export const genderPicker = StyleSheet.create({
   styling: {
     flex: 1,
     borderColor: "#0ab99c",
-    borderBottomWidth: 2,
     borderWidth: 0,
     borderRadius: 0,
   },
   containerStyle: {
-    height: 40,
+    height:40,
     flex: 1,
   },
   labelStyle: {
-    color: "gray",
+    color:"black",
     fontSize: 15,
     fontFamily: "PoppinsRegular",
   },
@@ -130,7 +135,7 @@ export const genderPicker = StyleSheet.create({
     width: "100%",
   },
   placeholderStyle: {
-    color: "gray",
+    color:"#808080a4",
     fontSize: 15,
     fontFamily: "PoppinsRegular",
   },
@@ -155,6 +160,8 @@ export const dateModal = StyleSheet.create({
     marginTop: 10,
   },
   modalContainer: {
+    borderRadius: 10,
+    margin: 20,
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
@@ -163,7 +170,7 @@ export const dateModal = StyleSheet.create({
     alignSelf: "center",
     padding: 10,
     borderRadius: 5,
-    backgroundColor: "#0ab99c",
+    backgroundColor: "#0a64b9",
   },
   closeButtonText: {
     color: "white",

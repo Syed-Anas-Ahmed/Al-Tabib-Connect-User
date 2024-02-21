@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import MenuComponents from "./components/home/MenuComponents";
 import { LinearGradient } from "expo-linear-gradient";
 import { gradient, paddings } from "./constants";
+import { Spinner } from "tamagui";
 
 
 const MenuScreen = () => {

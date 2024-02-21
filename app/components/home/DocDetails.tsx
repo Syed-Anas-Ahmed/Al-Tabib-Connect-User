@@ -48,8 +48,7 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
         {heading}
       </Text>
       <FlatList
-        snapToInterval={cardWidth}
-        decelerationRate="fast"
+        decelerationRate="normal"
         data={Data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
@@ -105,19 +104,21 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
                       onPress={() => handleGetAppointment(item, clinic)}
                       style={{
                         flex: 1,
-                        backgroundColor: "#0ab99c",
+                        backgroundColor: "#ffa600",
                         borderRadius: 5,
                         height: 40,
                         alignItems: "center",
                         justifyContent: "center",
+                        //borderColor:"lightgray",
+                        //borderWidth:2
                       }}
                     >
-                      <Text style={{ color: "white" }}>Get Appointment</Text>
+                      <Text style={{ color: "#ffffff" }}>Get Appointment</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{
                         flex: 1,
-                        backgroundColor: "#0ab99c",
+                        backgroundColor: "#0044ff",
                         borderRadius: 5,
                         height: 40,
                         alignItems: "center",

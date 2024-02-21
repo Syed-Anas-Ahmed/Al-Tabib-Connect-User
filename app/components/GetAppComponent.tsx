@@ -16,18 +16,22 @@ const GetAppComponent = () => {
 
   const data = useSelector((state: any) => state.appointments);
 
-  console.log(JSON.stringify(data,null,2))
+  console.log("Redux Data: ",JSON.stringify(data,null,2))
 
   // Last Appointment Details
   const docs = data[data.length-1].doc;
+  console.log("Last Appointment DOCS: ",JSON.stringify(docs,null,2))
+
   const clinics = data[data.length-1].clinic;
+  console.log("Last Appointment Clinics: ",JSON.stringify(docs,null,2))
+
 
 
   const dispactBooked = () => {
     ToastAndroid.show("Appointment Booked", ToastAndroid.LONG);
     setTimeout(() => {
       router.replace("../navigator/MainNavigator");
-    }, 2000);
+    }, 0);
   };
   const cancelBooking = () => {
     setTimeout(() => {
@@ -78,7 +82,7 @@ const GetAppComponent = () => {
         <TouchableOpacity
           onPress={() => cancelBooking()}
           style={[
-            themeColors.primary,
+            themeColors.yellow,
             {
               borderRadius: 7,
               padding: 10,
@@ -92,7 +96,7 @@ const GetAppComponent = () => {
         <TouchableOpacity
           onPress={() => dispactBooked()}
           style={[
-            themeColors.primary,
+            themeColors.blue,
             {
               borderRadius: 7,
               padding: 10,

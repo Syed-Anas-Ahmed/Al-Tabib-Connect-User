@@ -3,6 +3,7 @@ import Form from "./components/Form";
 import { LinearGradient } from "expo-linear-gradient";
 import { fonts,FontColors,paddings,gradient,containers } from "./constants";
 import { AlertNotificationRoot } from "react-native-alert-notification";
+import { StatusBar } from "expo-status-bar";
 
 const myCustomColors = {
   label: '#ff0000', // Example color values
@@ -21,7 +22,7 @@ const RegisterScreen = () => {
       <AlertNotificationRoot>
       <LinearGradient
         colors={["#08B89D", "#D2F9F1"]}
-        style={[paddings.primaryPad,gradient.linear]}
+        style={[paddings.primaryPad,gradient.linear,{gap:10}]}
       >
         <Text
           style={[fonts.heading,FontColors.whiteFont]}

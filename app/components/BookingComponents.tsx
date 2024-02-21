@@ -53,7 +53,7 @@ const BookingComponents = () => {
             <XStack gap={5} justifyContent="space-between">
               <TouchableOpacity
                 style={[
-                  themeColors.primary,
+                  themeColors.yellow,
                   {
                     borderRadius: 7,
                     padding: 10,
@@ -69,7 +69,7 @@ const BookingComponents = () => {
               <TouchableOpacity
                 onPress={() => dispactBooked()}
                 style={[
-                  themeColors.primary,
+                  themeColors.blue,
                   {
                     borderRadius: 7,
                     padding: 10,

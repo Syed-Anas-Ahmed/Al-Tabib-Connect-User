@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { Modal } from 'react-native';
 import { useState } from 'react';
 import { inputStyles,fonts,FontColors,dateModal } from '../constants';
+import { XStack } from 'tamagui';
 
 
 interface DatePickerProps {
@@ -33,9 +34,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ onDateChange }) => {
         
 
   return (
-    <View style={{ paddingVertical: 30 }}>
-    <View style={inputStyles.userField}>
-      <AntDesign name="calendar" size={20} color="#0ab99c" />
+    <XStack flex={1}>
       <TouchableOpacity
         style={dateModal.button}
         onPress={() => OpenModal()}
@@ -52,13 +51,13 @@ const DatePicker: React.FC<DatePickerProps> = ({ onDateChange }) => {
           style={dateModal.modalBlurContainer}
           experimentalBlurMethod="dimezisBlurView"
         >
-          <View style={dateModal.modalContainer}>
+          <View style={[dateModal.modalContainer,{backgroundColor:"white"}]}>
             <DateTimePicker
               selectedItemColor="#0ab99c"
               value={datevalue}
               locale={"en"}
               onValueChange={(date) => handleDateChange(date)}
-              mode="date"
+              mode="single"
             />
             <View style={dateModal.footerContainer}>
               {/* Button to close modal */}
@@ -72,8 +71,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ onDateChange }) => {
           </View>
         </BlurView>
       </Modal>
-    </View>
-  </View>
+  </XStack>
   )
 }
 

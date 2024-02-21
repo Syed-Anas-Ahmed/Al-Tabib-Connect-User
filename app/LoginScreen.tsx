@@ -20,7 +20,7 @@ const LoginScreen = () => {
       <AlertNotificationRoot>
         <LinearGradient
           colors={["#08B89D", "#D2F9F1"]}
-          style={[paddings.primaryPad, gradient.linear]}
+          style={[paddings.primaryPad, gradient.linear,{gap:10}]}
         >
           <Text style={[fonts.heading, FontColors.whiteFont]}>Login</Text>
           <FormLogin />

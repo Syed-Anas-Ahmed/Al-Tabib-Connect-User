@@ -1,196 +1,255 @@
-import { Modal, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
-import dayjs from 'dayjs';
+import { Dimensions, Text, TextInput, TouchableOpacity, View, } from "react-native";
+import dayjs from "dayjs";
 import React, { useState } from "react";
-import {
-  FontColors,
-  RegLog,
-  btns,
-  dateModal,
-  fonts,
-  form,
-  inputStyles,
-  themeColors,
-} from "../constants";
+import { FontColors, RegLog, btns, fonts, themeColors, } from "../constants";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
-import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
-import { Separator, Spinner, XStack } from "tamagui";
+import { Separator, XStack } from "tamagui";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
-import { YStack} from "tamagui";
-import { BlurView } from "expo-blur";
-import DateTimePicker, { DateType } from "react-native-ui-datepicker";
+import { YStack } from "tamagui";
+import { DateType } from "react-native-ui-datepicker";
+import DatePicker from "./DatePicker";
+import GenderPick from "./GenderPick";
+import axios from "axios";
+import * as Progress from "react-native-progress";
 
-const genders = [{ name: "Male" }, { name: "Female" }];
+const screenwidth = Dimensions.get("screen").width;
 
 const Form = () => {
-  const [val, setVal] = useState("Choose Gender");
 
-  const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
-
-  const [num, setNum] = useState("");
+  const [num, setNum] = useState("03");
+  const [name, setName] = useState("");
   const [pass, setPass] = useState("");
+  const [gender, setGender] = useState("");
+  const [verifyPass, setverifyPass] = useState("");
+  const [selectedDate, setSelectedDate] = useState<DateType>(dayjs());
 
-  const validateNum = (num: string) => {
-    if (num.length < 5) {
-      console.log("Phone number is too short");
-      return false;
-    } else {
-      return true;
-    }
-  };
+  const isEmptyString = (str: string) => str.trim() === "";
+  const validateNum = (num: string) => num.length >= 11;
 
-  const emptyFields = (num: string, password: string) => {
-    if (!num || !password) {
-      console.log("Please fill all fields");
-      return false;
-    } else {
-      return true;
-    }
-  };
+  //Validation Metdods
+  const emptyFields = (
+    num: string,
+    name: string,
+    password: string,
+    verifyPass: string,
+    gender: string,
+  ) => ![num, name, password, verifyPass, gender].some(isEmptyString);
 
-  const handleNumChange = (text: string) => {
-    setNum(text);
-  };
+  const validateSubmit = (
+    num: string,
+    name: string,
+    password: string,
+    verifyPass: string,
+    gender: string,
+  ) =>
+    validateNum(num) &&
+    emptyFields(num, name, password, verifyPass, gender) &&
+    password === verifyPass;
 
-  const handlePassChange = (text: string) => {
-    setPass(text);
-  };
+  //Input Changing
+  const handleNumChange = (text: string) => setNum(text);
+  const handlePassChange = (text: string) => setPass(text);
+  const handleVerifyPassChange = (text: string) => setverifyPass(text);
+  const handleGenderChange = (selectedGender: string) => setGender(selectedGender);
+  const handleNameChange = (name: string) => setName(name);
+  const handleDateChange = (date: DateType) => setSelectedDate(date);
 
   const handleSubmit = () => {
-    setLoading(true);
-    if (!validateNum(num) || !emptyFields(num, pass)) {
-      {
-        Dialog.show({
-          type: ALERT_TYPE.DANGER,
-          title: "Error",
-          textBody: "please fill all details correctly",
-          button: "close",
-        });
-      }
-      setLoading(false);
+    if (!validateSubmit(num, name, pass, verifyPass, gender)) {
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Error",
+        textBody: "Please fill all details correctly",
+        button: "Close",
+      });
     } else {
-      console.log("Form submitted successfully");
-      console.log(`Phone: ${num}, Password:${pass}`);
-      SecureStore.setItemAsync("token", "12345")
-        .then(() => {
-          console.log("Token stored successfully");
-          setTimeout(() => {
-            setLoading(false);
-            router.replace("./navigator/MainNavigator");
-          }, 2000);
-        })
-        .catch((error) => {
-          console.error("Error storing token:", error);
-          // Handle error
-        });
+      setLoading(true);
+      fetchRegisterData();
     }
+  };
+
+  //Putting inputs in JSON format then encoding it and passing it to the axios
+  const patient = {
+    name: `${name}`,
+    gender: `${gender}`,
+    password: `${pass}`,
+    cellNumber: `${num}`,
+    dob: "1998-08-16",
+  };
+
+  const encodedPatient = encodeURIComponent(JSON.stringify(patient));
+  const loginUrl = `http://192.168.100.48:8085/registerPatient?patient=${encodedPatient}&uuid=123&type=2`;
+
+  const fetchRegisterData = () => {
+    axios
+      .get(loginUrl)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(
+            "RESPONSE STATUS: ",
+            JSON.stringify(response.status, null, 2),
+          );
+          console.log(
+            "TOKEN: ",
+            JSON.stringify(response.data.data.token, null, 2),
+          );
+          SecureStore.setItemAsync("token", response.data.data.token)
+            .then(() => {
+              setTimeout(() => {
+                console.log("Token stored successfully");
+                router.replace("./navigator/MainNavigator");
+                setLoading(false);
+              }),
+                2000;
+            })
+            .catch((error) => {
+              console.error("Error storing token: ", error);
+            });
+          setLoading(false);
+        } else {
+          console.log("Error, Status code: ", response.status);
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.error("Server Error:", error.response.data);
+          console.error("Status Code:", error.response.status);
+          console.error("Headers:", error.response.headers);
+          setLoading(false);
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+          setLoading(false);
+        } else {
+          console.error("Request Error:", error.message);
+          setLoading(false);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
-    <View style={form.layout}>
-      <XStack>
-        <XStack
-          gap={10}
-          backgroundColor={"white"}
-          flex={1}
-          borderRadius={5}
-          padding={10}
+    <YStack
+      justifyContent="center"
+      borderRadius={10}
+      padding={15}
+      backgroundColor={"#f0f0f0"}
+      gap={15}
+      width={"100%"}
+    >
+      {loading ? (
+        <View
+          style={{
+            borderColor: "lightgray",
+            borderRadius: 10,
+            borderWidth: 2,
+            alignSelf: "center",
+            position: "absolute",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "white",
+            zIndex: 1000,
+            gap: 20,
+            height: screenwidth * 0.75,
+            width: screenwidth * 0.75,
+          }}
         >
-          <AntDesign name="phone" size={24} color="#0ab99c" />
-          <Separator vertical borderColor={"lightgray"} />
-          <TextInput
-            style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
-            placeholder="Enter Your Phone"
-            keyboardType="numeric"
-            maxLength={11}
-            onChangeText={handleNumChange}
-            placeholderTextColor="#808080a4"
+          <Text style={[fonts.headingSmall, FontColors.primaryFont]}>
+            Logging In
+          </Text>
+          {/* <Spinner size={75} color="#0ab99c" /> */}
+          <Progress.CircleSnail
+            thickness={7}
+            size={100}
+            color={["#0ab99c", "#0084ff", "#00cf00"]}
           />
-        </XStack>
+        </View>
+      ) : null}
+      <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
+        <AntDesign name="phone" size={24} color="#0ab99c" />
+        <Separator vertical borderColor={"lightgray"} />
+        <TextInput
+          style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
+          placeholder="Enter Your Phone"
+          keyboardType="phone-pad"
+          maxLength={11}
+          value={num}
+          onChangeText={handleNumChange}
+          placeholderTextColor="#808080a4"
+          textContentType="telephoneNumber"
+        />
       </XStack>
-      <XStack>
-        <XStack
-          gap={10}
-          backgroundColor={"white"}
-          flex={1}
-          borderRadius={5}
-          padding={10}
-        >
-          <AntDesign name="user" size={24} color="#0ab99c" />
-          <Separator vertical borderColor={"lightgray"} />
-          <TextInput
-            style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
-            placeholder="Enter Your Name"
-            onChangeText={handlePassChange}
-            placeholderTextColor="#808080a4"
-            autoCapitalize="none"
-            secureTextEntry={true}
-          />
-        </XStack>
+      <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
+        <AntDesign name="user" size={24} color="#0ab99c" />
+        <Separator vertical borderColor={"lightgray"} />
+        <TextInput
+          style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
+          placeholder="Enter Your Name"
+          onChangeText={handleNameChange}
+          placeholderTextColor="#808080a4"
+          textContentType="name"
+        />
       </XStack>
-      <XStack>
-        <XStack
-          gap={10}
-          backgroundColor={"white"}
-          flex={1}
-          borderRadius={5}
-          padding={10}
-        >
-          <AntDesign name="calendar" size={24} color="#0ab99c" />
-          <Separator vertical borderColor={"lightgray"} />
-          <TouchableOpacity
-            style={{
-              padding: 10,
-              alignItems: "center",
-              flex: 1,
-              backgroundColor: "#0ab99c",
-              borderRadius: 7,
-            }}
-          >
-            <Text style={[fonts.normalBold, FontColors.whiteFont]}>
-              Choose date of Birth
-            </Text>
-          </TouchableOpacity>
-        </XStack>
+      <XStack
+        zIndex={100}
+        gap={10}
+        backgroundColor={"white"}
+        borderRadius={5}
+        padding={10}
+        alignItems="center"
+      >
+        <AntDesign name="calendar" size={24} color="#0ab99c" />
+        <Separator alignSelf="stretch" vertical borderColor={"lightgray"} />
+        <DatePicker onDateChange={handleDateChange} />
       </XStack>
-      <XStack>
-        <XStack
-          gap={10}
-          backgroundColor={"white"}
-          flex={1}
-          borderRadius={5}
-          padding={10}
-        >
-          <Ionicons name="male-female" size={24} color="#0ab99c" />
-          <Separator vertical borderColor={"lightgray"} />
-          <YStack gap="$4">
-            <XStack ai="center" gap="$4">
-            <DatePicker onDateChange={()=>handleDateChange} />
-            </XStack>
-          </YStack>
-        </XStack>
+      <XStack
+        zIndex={100}
+        gap={10}
+        backgroundColor={"white"}
+        ai="center"
+        borderRadius={5}
+        padding={10}
+      >
+        <Ionicons name="male-female" size={24} color="#0ab99c" />
+        <Separator als={"stretch"} vertical borderColor={"lightgray"} />
+        <GenderPick genvalue={gender} onGenderChange={handleGenderChange} />
       </XStack>
-      <XStack>
-        <XStack
-          gap={10}
-          backgroundColor={"white"}
-          flex={1}
-          borderRadius={5}
-          padding={10}
-        >
-          <AntDesign name="lock" size={24} color="#0ab99c" />
-          <Separator vertical borderColor={"lightgray"} />
-          <TextInput
-            style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
-            placeholder="Enter Your Password"
-            onChangeText={handlePassChange}
-            placeholderTextColor="#808080a4"
-            autoCapitalize="none"
-            secureTextEntry={true}
-          />
-        </XStack>
+      <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
+        <AntDesign name="lock" size={24} color="#0ab99c" />
+        <Separator vertical borderColor={"lightgray"} />
+        <TextInput
+          style={{
+            padding: 0,
+            flex: 1,
+            fontFamily: "PoppinsRegular",
+          }}
+          placeholder="Choose Password"
+          onChangeText={handlePassChange}
+          placeholderTextColor="#808080a4"
+          autoCapitalize="none"
+          textContentType="password"
+        />
+      </XStack>
+      <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
+        <AntDesign name="lock" size={24} color="#0ab99c" />
+        <Separator vertical borderColor={"lightgray"} />
+        <TextInput
+          style={{
+            padding: 0,
+            flex: 1,
+            fontFamily: "PoppinsRegular",
+          }}
+          onChangeText={handleVerifyPassChange}
+          placeholder="Re-Enter Password"
+          placeholderTextColor="#808080a4"
+          autoCapitalize="none"
+          textContentType="password"
+        />
       </XStack>
       <TouchableOpacity
         onPress={handleSubmit}
@@ -205,15 +264,7 @@ const Form = () => {
           },
         ]}
       >
-        {loading ? (
-          <Spinner
-            position="absolute"
-            left={"35%"}
-            size="small"
-            color="#FFFFFF"
-          />
-        ) : null}
-        <Text style={[fonts.subBold, FontColors.whiteFont]}>Login</Text>
+        <Text style={[fonts.subBold, FontColors.whiteFont]}>Register</Text>
       </TouchableOpacity>
 
       <View style={RegLog.onPressStyle}>
@@ -226,78 +277,7 @@ const Form = () => {
           </TouchableOpacity>
         </Link>
       </View>
-    </View>
+    </YStack>
   );
 };
 export default Form;
-
-
-interface DatePickerProps {
-  onDateChange: (date: DateType) => void;
-}
-
-const DatePicker: React.FC<DatePickerProps> = ({ onDateChange }) => {
-    const [datevalue, setdateValue] = useState<DateType>(dayjs());
-    const [showModal, setShowModal] = useState(false);
-    const [DateVisible, setDateVisible] = useState(false)
-
-    const currDate = datevalue ? dayjs(datevalue).format("MMMM DD, YYYY") : "Choose your Date of Birth";
-
-    const OpenModal = () => {
-        setShowModal(!showModal);
-        setDateVisible(true)
-    }
-
-    const handleDateChange = (date: DateType) => {
-      setdateValue(date);
-      onDateChange(date);
-    };
-        
-
-  return (
-    <View style={inputStyles.userField}>
-      <TouchableOpacity
-        style={dateModal.button}
-        onPress={() => OpenModal()}
-      >
-        <Text style={[fonts.normal,FontColors.whiteFont]}>{DateVisible ? currDate:"Choose Date of Birth"}</Text>
-      </TouchableOpacity>
-      <Modal
-        transparent={true}
-        visible={showModal}
-        animationType="fade"
-        onRequestClose={() => setShowModal(false)}
-      >
-        <BlurView
-          style={dateModal.modalBlurContainer}
-          experimentalBlurMethod="dimezisBlurView"
-        >
-          <View style={dateModal.modalContainer}>
-            <DateTimePicker
-              selectedItemColor="#0ab99c"
-              value={datevalue}
-              locale={"en"}
-              onValueChange={(date) => handleDateChange(date)}
-              mode="date"
-            />
-            <View style={dateModal.footerContainer}>
-              {/* Button to close modal */}
-              <Pressable
-                onPress={() => setShowModal(false)}
-                style={dateModal.closeButton}
-              >
-                <Text style={dateModal.closeButtonText}>Close</Text>
-              </Pressable>
-            </View>
-          </View>
-        </BlurView>
-      </Modal>
-    </View>
-  )
-}
-
-const handleDateChange = (date: DateType) => {
-  setSelectedDate(date);
-};
-
-const [selectedDate, setSelectedDate] = useState<DateType>(dayjs());

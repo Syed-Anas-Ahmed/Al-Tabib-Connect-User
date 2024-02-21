@@ -7,6 +7,7 @@ import config from "../tamagui.config";
 import { StatusBar } from "expo-status-bar";
 import { Provider } from "react-redux";
 import store from "./context/store";
+import { rgbaColor } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 export default function Layout() {
   const [loaded] = useFonts({
@@ -28,6 +29,7 @@ export default function Layout() {
         <Stack screenOptions={{ headerShown: false }} />
         <StatusBar style="inverted" />
       </TamaguiProvider>
+      <StatusBar style="auto" translucent />
     </Provider>
   );
 }
