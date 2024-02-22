@@ -3,12 +3,13 @@ import { StyleSheet } from "react-native";
 
 const colors = {
   primary: "#4E54DA",
-  gradPrim: "#0814ff1c",
-  gradSec: "#08ffd61c",
+  gradPrim: "#4e55da8d",
+  gradSec: "#00be9e60",
   black: "#525252",
   white: "#ffffff",
   labelGray: "#8a8a8a",
   linkBlue: "#00a2ff",
+  yellow: "#ffa600",
 };
 export { colors };
 
@@ -32,6 +33,7 @@ export { fontSizes };
 
 const buttons = StyleSheet.create({
   primaryBtn: {
+    //flex:1,
     borderRadius: 5,
     backgroundColor: colors.primary,
     paddingVertical: 10,
@@ -73,3 +75,4 @@ const textStyles = StyleSheet.create({
     },
 });
 export {textStyles};
+

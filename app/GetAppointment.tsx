@@ -4,12 +4,14 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { paddings, gradient, fonts, FontColors, themeColors } from './constants'
 import { Text } from 'react-native'
 import GetAppComponent from './components/GetAppComponent'
+import { colors } from './styles'
 
 const BookAppointment = () => {
   return (
     <LinearGradient
-      colors={["#08B89D", "#D2F9F1"]}
-      style={[paddings.primaryPad, gradient.linear]}
+      locations={[0.3, 0.5, 0.8]}
+      colors={[colors.gradPrim, "white", colors.gradSec]}
+      style={{ flex: 1 }}
     >
       <SafeAreaView style={{ flex: 1, padding: 15, alignItems:"center" }}>
         <Text style={[fonts.heading,FontColors.whiteFont,]}>Select Patient</Text>

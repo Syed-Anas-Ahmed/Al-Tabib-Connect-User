@@ -54,26 +54,21 @@ export default function index() {
     return (
       <Stack.Navigator>
         {isLoggedIn ? (
-          // <Stack.Screen
-          //   name="MenuScreen"
-          //   component={MainNavigator}
-          //   options={{
-          //     headerShown: false,
-          //     contentStyle: { backgroundColor: "white" },
-          //   }}
-          // />
-           <Stack.Screen
-             name="LoginScreen"
-             component={LoginScreen}
-             options={{ headerShown: false }}
-           />
+          <Stack.Screen
+            name="MenuScreen"
+            component={MainNavigator}
+            options={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "white" },
+            }}
+          />
         ) : (
+          //  <Stack.Screen
+          //    name="LoginScreen"
+          //    component={LoginScreen}
+          //    options={{ headerShown: false }}
+          //  />
           <>
-            <Stack.Screen
-              name="RegisterScreen"
-              component={RegisterScreen}
-              options={{ headerShown: false }}
-            />
             <Stack.Screen
               name="MainNavigator"
               component={MainNavigator}

@@ -1,10 +1,8 @@
 import {
   Dimensions,
-  Keyboard,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import React, { useState } from "react";

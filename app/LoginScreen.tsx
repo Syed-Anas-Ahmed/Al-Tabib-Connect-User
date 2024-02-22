@@ -37,12 +37,15 @@ const LoginScreen = () => {
             keyboardShouldPersistTaps="handled"
           >
             <LinearGradient
-            locations={[0.3,0.5,0.8]}
-              colors={[colors.gradPrim,"white", colors.gradSec]}
+              locations={[0.3, 0.5, 0.8]}
+              colors={[colors.gradPrim, "white", colors.gradSec]}
               style={[paddings.primaryPad, gradient.linear, { gap: 10 }]}
             >
               <Text style={[textStyles.heading]}>Login</Text>
-              <Text style={[textStyles.normal, { textAlign: "center" }]}>You can search Doctors, Book Appointments & check Medical History</Text>
+              <Text style={[textStyles.normal, { textAlign: "center" }]}>
+                You can search Doctors, Book Appointments & check Medical
+                History
+              </Text>
               <FormLogin />
             </LinearGradient>
           </ScrollView>

@@ -166,12 +166,14 @@ export const dateModal = StyleSheet.create({
     alignItems: "center",
   },
   closeButton: {
-    alignSelf: "center",
+    alignItems: "center",
+    justifyContent:"center",
     padding: 10,
     borderRadius: 5,
-    backgroundColor: "#0a64b9",
+    backgroundColor: "#4E54DA",
   },
   closeButtonText: {
+    fontFamily:"PoppinsSemiBold",
     color: "white",
     fontSize: 16,
   },

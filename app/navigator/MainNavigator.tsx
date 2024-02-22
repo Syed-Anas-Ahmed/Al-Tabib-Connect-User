@@ -5,28 +5,32 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import MenuScreen from "../MenuScreen";
 import { LinearGradient } from "expo-linear-gradient";
+import { colors } from "../styles";
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigator = () => {
   return (
     <LinearGradient
-    colors={["#08B89D", "#D2F9F1"]}
+      locations={[0.3, 0.5, 0.8]}
+      colors={[colors.gradPrim, "white", colors.gradSec]}
       style={{ flex: 1 }}
     >
       <Tab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: "#0ab99c",
+          tabBarActiveTintColor: "white",
+          tabBarInactiveTintColor: "white",
           tabBarStyle: {
             borderWidth: 1,
             borderTopWidth: 1,
-            borderColor: "#f5f5f5",
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
-            backgroundColor: "#f5f5f5",
+            backgroundColor: "#ffa600",
+            borderColor: "#ffa600",
+            borderTopColor: "#ffa600",
             height: 70,
             paddingTop: 10,
-            paddingBottom: 10,
+            paddingBottom: 7,
           },
         }}
       >
@@ -34,8 +38,8 @@ const MainNavigator = () => {
           name="Home"
           component={MenuScreen}
           options={{
-            tabBarIcon: ({ color }) => (
-              <AntDesign name="home" size={30} color={color} />
+            tabBarIcon: ({color}) => (
+              <AntDesign name="home" size={30}  color={color} />
             ),
             headerShown: false,
           }}
@@ -44,6 +48,7 @@ const MainNavigator = () => {
           name="Follow Up"
           component={FollowUp}
           options={{
+          
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="people-arrows" size={30} color={color} />
             ),

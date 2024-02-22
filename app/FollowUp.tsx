@@ -1,14 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet } from "react-native";
+import React from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import { colors } from "./styles";
+import { Text } from "tamagui";
 
 const FollowUp = () => {
   return (
-    <View>
-      <Text>Followup</Text>
-    </View>
-  )
-}
+    <LinearGradient
+      locations={[0.3, 0.5, 0.8]}
+      colors={[colors.gradPrim, "white", colors.gradSec]}
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+    >
+      <Text fontSize={32} fontFamily={"PoppinsSemiBold"} color={"red"}>Follow-Up</Text>
+    </LinearGradient>
+  );
+};
 
-export default FollowUp
+export default FollowUp;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

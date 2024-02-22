@@ -12,6 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { fonts, FontColors, paddings, gradient, containers } from "./constants";
 import { AlertNotificationRoot } from "react-native-alert-notification";
 import { StatusBar } from "expo-status-bar";
+import { colors, textStyles } from "./styles";
 
 const myCustomColors = {
   label: "#ff0000", // Example color values
@@ -32,15 +33,18 @@ const RegisterScreen = () => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <ScrollView
-            contentContainerStyle={{flex:1, flexGrow: 1 }}
+            contentContainerStyle={{ flex: 1, flexGrow: 1 }}
             keyboardShouldPersistTaps="handled"
           >
             <LinearGradient
-              colors={["#08B89D", "#D2F9F1"]}
-              style={[paddings.primaryPad, gradient.linear, { gap: 10 }]}
+              locations={[0.3, 0.5, 0.8]}
+              colors={[colors.gradPrim, "white", colors.gradSec]}
+              style={[paddings.primaryPad, gradient.linear, { gap: 5 }]}
             >
-              <Text style={[fonts.heading, FontColors.whiteFont]}>
-                Register
+              <Text style={[textStyles.heading]}>Register</Text>
+              <Text style={[textStyles.normal, { textAlign: "center" }]}>
+                You can search Doctors, Book Appointments & check Medical
+                History
               </Text>
               <Form />
             </LinearGradient>

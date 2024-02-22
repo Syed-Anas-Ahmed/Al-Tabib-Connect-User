@@ -1,6 +1,6 @@
 import { Text, ToastAndroid, TouchableOpacity } from "react-native";
 import React from "react";
-import { Card, XStack } from "tamagui";
+import { Card, TextArea, XStack } from "tamagui";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
 import { Dimensions } from "react-native";
@@ -16,16 +16,32 @@ const GetAppComponent = () => {
 
   const data = useSelector((state: any) => state.appointments);
 
-  console.log("Redux Data: ",JSON.stringify(data,null,2))
+  //WHOLE DOC LIST
+  const docs = data[data.length - 1].doc;
+
+  const docName = data[data.length - 1].doc.name;
+  const clinicName = docs.doctorClinicDALS[docs.doctorClinicDALS.length - 1].clinic.name;
+
+  //console.log("Redux Data: ", JSON.stringify(data, null, 2));
 
   // Last Appointment Details
-  const docs = data[data.length-1].doc;
-  console.log("Last Appointment DOCS: ",JSON.stringify(docs,null,2))
+  //console.log("Last Appointment DOCS: ", JSON.stringify(docs, null, 2));
 
-  const clinics = data[data.length-1].clinic;
-  console.log("Last Appointment Clinics: ",JSON.stringify(docs,null,2))
+  // docs.doctorClinicDALS.map(
+  //   (item) => console.log("Clinic Name: ", item.clinic.name),
+  //   null,
+  //   2,
+  // );
+  //console.log("Clinic: ", docs.doctorClinicDALS[docs.doctorClinicDALS.length - 1].clinic.name)
 
 
+  console.log("Doctor Name: ", docName);
+  console.log("Clinic Name: ", clinicName);
+
+  //console.log("Quals:", quals)
+
+  // const clinics = data[data.length-1].clinic;s
+  // console.log("Last Appointment Clinics: ",JSON.stringify(docs,null,2))
 
   const dispactBooked = () => {
     ToastAndroid.show("Appointment Booked", ToastAndroid.LONG);
@@ -46,6 +62,7 @@ const GetAppComponent = () => {
       gap={5}
       marginBottom={10}
       backgroundColor={"white"}
+      overflow="scroll"
     >
       <XStack gap={5}>
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>Date:</Text>
@@ -57,20 +74,21 @@ const GetAppComponent = () => {
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>
           Doctor Name:
         </Text>
-        <Text style={[FontColors.blackFont, fonts.normal]}>{docs.drName}</Text>
+        <Text style={[FontColors.blackFont, fonts.normal]}>{docName}</Text>
       </XStack>
       <XStack gap={5}>
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>
           Qualification:
         </Text>
-        <Text style={[FontColors.blackFont, fonts.normal]}>{docs.drQual}</Text>
+        {docs.qualifications.map((item) => (
+          <Text style={[FontColors.blackFont, fonts.normal]}>{item.name}</Text>
+        ))}
       </XStack>
       <XStack gap={5}>
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>
           Clinic Name:
         </Text>
-        <Text style={[FontColors.blackFont, fonts.normal]}>{clinics.clinicName}</Text>
-        
+        <Text style={[FontColors.blackFont, fonts.normal]}>{clinicName}</Text>
       </XStack>
       <XStack gap={5}>
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>

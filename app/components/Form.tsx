@@ -1,7 +1,13 @@
-import { Dimensions, Text, TextInput, TouchableOpacity, View, } from "react-native";
+import {
+  Dimensions,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { FontColors, RegLog, btns, fonts, themeColors, } from "../constants";
+import { FontColors, RegLog, btns, fonts, themeColors } from "../constants";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import * as SecureStore from "expo-secure-store";
 import { Separator, XStack } from "tamagui";
@@ -13,11 +19,11 @@ import DatePicker from "./DatePicker";
 import GenderPick from "./GenderPick";
 import axios from "axios";
 import * as Progress from "react-native-progress";
+import { buttons, colors } from "../styles";
 
 const screenwidth = Dimensions.get("screen").width;
 
 const Form = () => {
-
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState("03");
   const [name, setName] = useState("");
@@ -53,7 +59,8 @@ const Form = () => {
   const handleNumChange = (text: string) => setNum(text);
   const handlePassChange = (text: string) => setPass(text);
   const handleVerifyPassChange = (text: string) => setverifyPass(text);
-  const handleGenderChange = (selectedGender: string) => setGender(selectedGender);
+  const handleGenderChange = (selectedGender: string) =>
+    setGender(selectedGender);
   const handleNameChange = (name: string) => setName(name);
   const handleDateChange = (date: DateType) => setSelectedDate(date);
 
@@ -83,7 +90,7 @@ const Form = () => {
   const encodedPatient = encodeURIComponent(JSON.stringify(patient));
 
   //USE YOUR OWN URL!!
-  const url = `http://192.168.100.48:8085`
+  const url = `http://192.168.100.48:8085`;
   const loginUrl = `${url}/registerPatient?patient=${encodedPatient}&uuid=123&type=2`;
 
   const fetchRegisterData = () => {
@@ -165,16 +172,15 @@ const Form = () => {
           <Text style={[fonts.headingSmall, FontColors.primaryFont]}>
             Logging In
           </Text>
-          {/* <Spinner size={75} color="#0ab99c" /> */}
           <Progress.CircleSnail
             thickness={7}
             size={100}
-            color={["#0ab99c", "#0084ff", "#00cf00"]}
+            color={["#0ab99c", "#0044ff", "#ffa600"]}
           />
         </View>
       ) : null}
       <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
-        <AntDesign name="phone" size={24} color="#0ab99c" />
+        <AntDesign name="phone" size={24} color={colors.primary} />
         <Separator vertical borderColor={"lightgray"} />
         <TextInput
           style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
@@ -188,7 +194,7 @@ const Form = () => {
         />
       </XStack>
       <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
-        <AntDesign name="user" size={24} color="#0ab99c" />
+        <AntDesign name="user" size={24} color={colors.primary} />
         <Separator vertical borderColor={"lightgray"} />
         <TextInput
           style={{ padding: 0, flex: 1, fontFamily: "PoppinsRegular" }}
@@ -206,7 +212,7 @@ const Form = () => {
         padding={10}
         alignItems="center"
       >
-        <AntDesign name="calendar" size={24} color="#0ab99c" />
+        <AntDesign name="calendar" size={24} color={colors.primary} />
         <Separator alignSelf="stretch" vertical borderColor={"lightgray"} />
         <DatePicker onDateChange={handleDateChange} />
       </XStack>
@@ -218,12 +224,12 @@ const Form = () => {
         borderRadius={5}
         padding={10}
       >
-        <Ionicons name="male-female" size={24} color="#0ab99c" />
+        <Ionicons name="male-female" size={24} color={colors.primary} />
         <Separator als={"stretch"} vertical borderColor={"lightgray"} />
         <GenderPick genvalue={gender} onGenderChange={handleGenderChange} />
       </XStack>
       <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
-        <AntDesign name="lock" size={24} color="#0ab99c" />
+        <AntDesign name="lock" size={24} color={colors.primary} />
         <Separator vertical borderColor={"lightgray"} />
         <TextInput
           style={{
@@ -239,7 +245,7 @@ const Form = () => {
         />
       </XStack>
       <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
-        <AntDesign name="lock" size={24} color="#0ab99c" />
+        <AntDesign name="lock" size={24} color={colors.primary} />
         <Separator vertical borderColor={"lightgray"} />
         <TextInput
           style={{
@@ -254,20 +260,8 @@ const Form = () => {
           textContentType="password"
         />
       </XStack>
-      <TouchableOpacity
-        onPress={handleSubmit}
-        style={[
-          themeColors.primary,
-          btns.btnPrimary,
-          {
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 10,
-          },
-        ]}
-      >
-        <Text style={[fonts.subBold, FontColors.whiteFont]}>Register</Text>
+      <TouchableOpacity onPress={handleSubmit} style={[buttons.primaryBtn]}>
+        <Text style={[fonts.sub, FontColors.whiteFont]}>Register</Text>
       </TouchableOpacity>
 
       <View style={RegLog.onPressStyle}>

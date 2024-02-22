@@ -4,13 +4,14 @@ import MenuComponents from "./components/home/MenuComponents";
 import { LinearGradient } from "expo-linear-gradient";
 import { gradient, paddings } from "./constants";
 import { Spinner } from "tamagui";
-
+import { colors } from "./styles";
 
 const MenuScreen = () => {
   return (
     <LinearGradient
-    colors={["#08B89D", "#D2F9F1"]}
-      style={[paddings.primaryPad, gradient.linear]}
+      locations={[0.3, 0.6, 0.8]}
+      colors={[colors.gradPrim, "white", colors.gradSec]}
+      style={[paddings.primaryPad, gradient.linear, { gap: 10 }]}
     >
       <SafeAreaView style={{ flex: 1, padding: 15 }}>
         <MenuComponents />

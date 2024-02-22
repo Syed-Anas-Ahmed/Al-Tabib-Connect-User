@@ -9,6 +9,7 @@ import { Modal } from 'react-native';
 import { useState } from 'react';
 import { inputStyles,fonts,FontColors,dateModal } from '../constants';
 import { XStack } from 'tamagui';
+import { buttons } from '../styles';
 
 
 interface DatePickerProps {
@@ -36,7 +37,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ onDateChange }) => {
   return (
     <XStack flex={1}>
       <TouchableOpacity
-        style={dateModal.button}
+        style={[buttons.primaryBtn,{flex:1}]}
         onPress={() => OpenModal()}
       >
         <Text style={[fonts.normal,FontColors.whiteFont]}>{DateVisible ? currDate:"Choose Date of Birth"}</Text>
@@ -51,7 +52,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ onDateChange }) => {
           style={dateModal.modalBlurContainer}
           experimentalBlurMethod="dimezisBlurView"
         >
-          <View style={[dateModal.modalContainer,{backgroundColor:"white"}]}>
+          <View style={[dateModal.modalContainer,{borderColor:"lightgrey",borderWidth:1,backgroundColor:"white"}]}>
             <DateTimePicker
               selectedItemColor="#0ab99c"
               value={datevalue}
