@@ -9,9 +9,6 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import MenuScreen from "../MenuScreen";
-import { LinearGradient } from "expo-linear-gradient";
-import { colors } from "../styles";
-import { Drawer } from "expo-router/drawer";
 import Family from "../Family";
 
 const Tab = createBottomTabNavigator();

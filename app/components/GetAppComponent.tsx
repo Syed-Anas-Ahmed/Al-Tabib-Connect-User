@@ -1,4 +1,4 @@
-import { Text, ToastAndroid, TouchableOpacity } from "react-native";
+import { Platform, Text, ToastAndroid, TouchableOpacity } from "react-native";
 import React from "react";
 import { Card, TextArea, XStack } from "tamagui";
 import dayjs from "dayjs";
@@ -13,38 +13,24 @@ dayjs.locale("en");
 const cardWidth = Dimensions.get("window").width - 30;
 
 const GetAppComponent = () => {
-
   const data = useSelector((state: any) => state.appointments);
 
   //WHOLE DOC LIST
   const docs = data[data.length - 1].doc;
 
   const docName = data[data.length - 1].doc.name;
-  const clinicName = docs.doctorClinicDALS[docs.doctorClinicDALS.length - 1].clinic.name;
-
-  //console.log("Redux Data: ", JSON.stringify(data, null, 2));
-
-  // Last Appointment Details
-  //console.log("Last Appointment DOCS: ", JSON.stringify(docs, null, 2));
-
-  // docs.doctorClinicDALS.map(
-  //   (item) => console.log("Clinic Name: ", item.clinic.name),
-  //   null,
-  //   2,
-  // );
-  //console.log("Clinic: ", docs.doctorClinicDALS[docs.doctorClinicDALS.length - 1].clinic.name)
-
+  const clinicName =
+    docs.doctorClinicDALS[docs.doctorClinicDALS.length - 1].clinic.name;
 
   console.log("Doctor Name: ", docName);
   console.log("Clinic Name: ", clinicName);
 
-  //console.log("Quals:", quals)
-
-  // const clinics = data[data.length-1].clinic;s
-  // console.log("Last Appointment Clinics: ",JSON.stringify(docs,null,2))
-
   const dispactBooked = () => {
-    ToastAndroid.show("Appointment Booked", ToastAndroid.LONG);
+    {
+      Platform.OS === "ios"
+        ? alert("Appointment Booked")
+        : ToastAndroid.show("Appointment Booked", ToastAndroid.LONG);
+    }
     setTimeout(() => {
       router.replace("../navigator/MainNavigator");
     }, 0);
@@ -80,7 +66,7 @@ const GetAppComponent = () => {
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>
           Qualification:
         </Text>
-        {docs.qualifications.map((item:any) => (
+        {docs.qualifications.map((item: any) => (
           <Text style={[FontColors.blackFont, fonts.normal]}>{item.name}</Text>
         ))}
       </XStack>
