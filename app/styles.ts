@@ -10,6 +10,8 @@ const colors = {
   labelGray: "#8a8a8a",
   linkBlue: "#00a2ff",
   yellow: "#ffa600",
+  green: "#0ab99c",
+  red:"#ff0000"
 };
 export { colors };
 
@@ -40,13 +42,40 @@ const buttons = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  secBtn: {
+    width:300,
+    //flex:1,
+    borderRadius: 10,
+    backgroundColor: colors.yellow,
+    padding: 15,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  terBtn: {
+    width:300,
+    //flex:1,
+    borderRadius: 10,
+    backgroundColor: colors.green,
+    padding: 15,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  redBtn: {
+    width:300,
+    //flex:1,
+    borderRadius: 10,
+    backgroundColor: colors.red,
+    padding: 15,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 export {buttons};
 
 const textStyles = StyleSheet.create({
   heading: {
     fontFamily: fontsFams.poppinsSemiBold,
-    color: colors.black,
+    color: colors.white,
     fontSize: fontSizes.XL,
   },
     subHeading: {
@@ -56,7 +85,7 @@ const textStyles = StyleSheet.create({
     },
     normal: {
         fontFamily: fontsFams.poppinsRegular,
-        color: colors.labelGray,
+        color: "#eeeeee",
         fontSize: fontSizes.SM,
     },
     subNormal: {

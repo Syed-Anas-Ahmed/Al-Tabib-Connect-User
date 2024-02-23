@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { FontColors, RegLog, btns, fonts, themeColors } from "../constants";
+import { FontColors, RegLog, fonts } from "../constants";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import * as SecureStore from "expo-secure-store";
 import { Separator, XStack } from "tamagui";
@@ -19,7 +19,7 @@ import DatePicker from "./DatePicker";
 import GenderPick from "./GenderPick";
 import axios from "axios";
 import * as Progress from "react-native-progress";
-import { buttons, colors } from "../styles";
+import { buttons, colors, fontSizes, fontsFams } from "../styles";
 
 const screenwidth = Dimensions.get("screen").width;
 
@@ -90,7 +90,7 @@ const Form = () => {
   const encodedPatient = encodeURIComponent(JSON.stringify(patient));
 
   //USE YOUR OWN URL!!
-  const url = `http://192.168.100.48:8085`;
+  const url = `http://192.168.100.53:8083`;
   const loginUrl = `${url}/registerPatient?patient=${encodedPatient}&uuid=123&type=2`;
 
   const fetchRegisterData = () => {
@@ -148,7 +148,7 @@ const Form = () => {
       justifyContent="center"
       borderRadius={10}
       padding={15}
-      backgroundColor={"#f0f0f0"}
+      backgroundColor={"white"}
       gap={15}
       width={"100%"}
     >
@@ -179,7 +179,15 @@ const Form = () => {
           />
         </View>
       ) : null}
-      <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
+      <XStack
+        borderColor={"#ebebeb"}
+        borderWidth={1}
+        borderRadius={5}
+        gap={10}
+        backgroundColor={"white"}
+        borderRadius={5}
+        padding={10}
+      >
         <AntDesign name="phone" size={24} color={colors.primary} />
         <Separator vertical borderColor={"lightgray"} />
         <TextInput
@@ -193,7 +201,14 @@ const Form = () => {
           textContentType="telephoneNumber"
         />
       </XStack>
-      <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
+      <XStack
+        borderColor={"#ebebeb"}
+        borderWidth={1}
+        gap={10}
+        backgroundColor={"white"}
+        borderRadius={5}
+        padding={10}
+      >
         <AntDesign name="user" size={24} color={colors.primary} />
         <Separator vertical borderColor={"lightgray"} />
         <TextInput
@@ -205,6 +220,8 @@ const Form = () => {
         />
       </XStack>
       <XStack
+        borderColor={"#ebebeb"}
+        borderWidth={1}
         zIndex={100}
         gap={10}
         backgroundColor={"white"}
@@ -214,9 +231,10 @@ const Form = () => {
       >
         <AntDesign name="calendar" size={24} color={colors.primary} />
         <Separator alignSelf="stretch" vertical borderColor={"lightgray"} />
-        <DatePicker onDateChange={handleDateChange} />
       </XStack>
       <XStack
+        borderColor={"#ebebeb"}
+        borderWidth={1}
         zIndex={100}
         gap={10}
         backgroundColor={"white"}
@@ -228,7 +246,14 @@ const Form = () => {
         <Separator als={"stretch"} vertical borderColor={"lightgray"} />
         <GenderPick genvalue={gender} onGenderChange={handleGenderChange} />
       </XStack>
-      <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
+      <XStack
+        borderColor={"#ebebeb"}
+        borderWidth={1}
+        gap={10}
+        backgroundColor={"white"}
+        borderRadius={5}
+        padding={10}
+      >
         <AntDesign name="lock" size={24} color={colors.primary} />
         <Separator vertical borderColor={"lightgray"} />
         <TextInput
@@ -244,7 +269,14 @@ const Form = () => {
           textContentType="password"
         />
       </XStack>
-      <XStack gap={10} backgroundColor={"white"} borderRadius={5} padding={10}>
+      <XStack
+        borderColor={"#ebebeb"}
+        borderWidth={1}
+        gap={10}
+        backgroundColor={"white"}
+        borderRadius={5}
+        padding={10}
+      >
         <AntDesign name="lock" size={24} color={colors.primary} />
         <Separator vertical borderColor={"lightgray"} />
         <TextInput
@@ -265,12 +297,12 @@ const Form = () => {
       </TouchableOpacity>
 
       <View style={RegLog.onPressStyle}>
-        <Text style={[fonts.normalBold, FontColors.primaryFont]}>
+      <Text style={[{fontSize:fontSizes.SM, fontFamily:fontsFams.poppinsMedium ,color:colors.primary}]}>
           Already have an account?
         </Text>
         <Link href="/LoginScreen" asChild>
           <TouchableOpacity>
-            <Text style={[fonts.normalBold, FontColors.blue]}>Register</Text>
+          <Text style={[{fontSize:fontSizes.SM, fontFamily:fontsFams.poppinsMedium ,color:colors.linkBlue}]}>Login</Text>
           </TouchableOpacity>
         </Link>
       </View>

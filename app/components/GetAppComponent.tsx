@@ -80,7 +80,7 @@ const GetAppComponent = () => {
         <Text style={[FontColors.primaryFont, fonts.normalBold]}>
           Qualification:
         </Text>
-        {docs.qualifications.map((item) => (
+        {docs.qualifications.map((item:any) => (
           <Text style={[FontColors.blackFont, fonts.normal]}>{item.name}</Text>
         ))}
       </XStack>

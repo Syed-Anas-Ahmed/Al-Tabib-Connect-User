@@ -76,9 +76,9 @@ const FormLogin = () => {
   const currentTimeStamp = getCurrentTimestamp();
 
   //USE YOUR OWN URL!!
-  const url = `http://192.168.100.48:8085`;
+  const url = `http://192.168.100.53:8083`;
 
-  const loginUrl = `${url}/login?username=${num}&password=${pass}&UUID=${currentTimeStamp}&type=2`;
+  const loginUrl = `${url}/altabibconnect/login?username=${num}&password=${pass}&UUID=${currentTimeStamp}&type=2`;
 
   const fetchLoginData = () => {
     axios

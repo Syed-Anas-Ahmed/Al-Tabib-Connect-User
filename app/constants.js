@@ -6,27 +6,27 @@ export default primColor;
 
 export const fonts = StyleSheet.create({
   heading: {
-    fontFamily: "PoppinsSemiBold",
+    fontFamily: "ArialB",
     fontSize: 32,
   },
   headingSmall:{
-    fontFamily: "PoppinsSemiBold",
+    fontFamily: "Arial",
     fontSize: 22,
   },
   sub: {
-    fontFamily: "PoppinsRegular",
+    fontFamily: "ArialB",
     fontSize: 20,
   },
   subBold:{
-    fontFamily: "PoppinsSemiBold",
+    fontFamily: "Arial",
     fontSize: 20,
   },
   normal: {
-    fontFamily: "PoppinsRegular",
+    fontFamily: "Arial",
     fontSize: 16,
   },
   normalBold: {
-    fontFamily: "PoppinsSemiBold",
+    fontFamily: "ArialB",
     fontSize: 16,
   },
 });
@@ -104,7 +104,7 @@ export const inputStyles = StyleSheet.create({
     justifyContent: "space-between",
   },
   inpBox: {
-    fontFamily: "PoppinsRegular",
+    fontFamily: "Arial",
     borderBottomColor: "#0ab99c",
     borderBottomWidth: 2,
     flex: 1,
@@ -114,7 +114,7 @@ export const inputStyles = StyleSheet.create({
 export const genderPicker = StyleSheet.create({
   styling: {
     flex: 1,
-    borderColor: "#0ab99c",
+    borderColor: "#4E54DA",
     borderWidth: 0,
     borderRadius: 0,
   },
@@ -125,10 +125,10 @@ export const genderPicker = StyleSheet.create({
   labelStyle: {
     color:"black",
     fontSize: 15,
-    fontFamily: "PoppinsRegular",
+    fontFamily: "Arial",
   },
   dropDownContainerStyle: {
-    borderColor: "#0ab99c",
+    borderColor: "#4E54DA",
     borderWidth: 2,
     borderRadius: 10,
     width: "100%",
@@ -136,12 +136,12 @@ export const genderPicker = StyleSheet.create({
   placeholderStyle: {
     color:"#808080a4",
     fontSize: 15,
-    fontFamily: "PoppinsRegular",
+    fontFamily: "Arial",
   },
   listItemLabelStyle: {
-    color: "#0ab99c",
+    color: "#4E54DA",
     fontSize: 15,
-    fontFamily: "PoppinsRegular",
+    fontFamily: "Arial",
   },
 });
 
@@ -173,7 +173,7 @@ export const dateModal = StyleSheet.create({
     backgroundColor: "#4E54DA",
   },
   closeButtonText: {
-    fontFamily:"PoppinsSemiBold",
+    fontFamily:"Arial",
     color: "white",
     fontSize: 16,
   },

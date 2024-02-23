@@ -1,22 +1,14 @@
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import MenuComponents from "./components/home/MenuComponents";
-import { LinearGradient } from "expo-linear-gradient";
-import { gradient, paddings } from "./constants";
-import { Spinner } from "tamagui";
-import { colors } from "./styles";
+import DocDetails from "./components/home/DocDetails";
+import { SafeAreaView } from "react-native-safe-area-context"
+import MenuBar from "./components/MenuBar";
 
 const MenuScreen = () => {
   return (
-    <LinearGradient
-      locations={[0.3, 0.6, 0.8]}
-      colors={[colors.gradPrim, "white", colors.gradSec]}
-      style={[paddings.primaryPad, gradient.linear, { gap: 10 }]}
-    >
-      <SafeAreaView style={{ flex: 1, padding: 15 }}>
-        <MenuComponents />
-      </SafeAreaView>
-    </LinearGradient>
+    <SafeAreaView style={{backgroundColor:"white",flex:1, paddingHorizontal:10}}>
+      <MenuBar/>
+      <DocDetails heading="Well Known Doctors" />
+    </SafeAreaView>
   );
 };
 

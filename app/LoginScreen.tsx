@@ -38,7 +38,7 @@ const LoginScreen = () => {
           >
             <LinearGradient
               locations={[0.3, 0.5, 0.8]}
-              colors={[colors.gradPrim, "white", colors.gradSec]}
+              colors={[colors.gradPrim, colors.yellow, colors.gradSec]}
               style={[paddings.primaryPad, gradient.linear, { gap: 10 }]}
             >
               <Text style={[textStyles.heading]}>Login</Text>

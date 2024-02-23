@@ -2,25 +2,29 @@ import React from "react";
 import FollowUp from "../FollowUp";
 import Profile from "../Profile";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { FontAwesome, AntDesign, FontAwesome5 } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  AntDesign,
+  FontAwesome5,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import MenuScreen from "../MenuScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors } from "../styles";
+import { Drawer } from "expo-router/drawer";
+import Family from "../Family";
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigator = () => {
   return (
-    <LinearGradient
-      locations={[0.3, 0.5, 0.8]}
-      colors={[colors.gradPrim, "white", colors.gradSec]}
-      style={{ flex: 1 }}
-    >
+    <>
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: "white",
           tabBarInactiveTintColor: "white",
           tabBarStyle: {
+            marginTop: 10,
             borderWidth: 1,
             borderTopWidth: 1,
             borderTopLeftRadius: 30,
@@ -38,8 +42,18 @@ const MainNavigator = () => {
           name="Home"
           component={MenuScreen}
           options={{
-            tabBarIcon: ({color}) => (
-              <AntDesign name="home" size={30}  color={color} />
+            tabBarIcon: ({ color }) => (
+              <AntDesign name="home" size={30} color={color} />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="Family"
+          component={Family}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons name="family-restroom" size={35} color={color} />
             ),
             headerShown: false,
           }}
@@ -48,7 +62,6 @@ const MainNavigator = () => {
           name="Follow Up"
           component={FollowUp}
           options={{
-          
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="people-arrows" size={30} color={color} />
             ),
@@ -67,7 +80,7 @@ const MainNavigator = () => {
           }}
         />
       </Tab.Navigator>
-    </LinearGradient>
+    </>
   );
 };
 

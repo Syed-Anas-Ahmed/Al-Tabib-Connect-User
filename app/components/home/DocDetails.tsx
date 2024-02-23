@@ -8,10 +8,9 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Card, Separator, XStack, YStack } from "tamagui";
-import primColor, { FontColors, fonts } from "~/app/constants";
+import { Card, XStack } from "tamagui";
+import { FontColors, fonts } from "~/app/constants";
 import { Pagination } from "react-native-snap-carousel";
-//import Data from "../../Data";
 import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useDispatch } from "react-redux";
@@ -28,15 +27,20 @@ interface DocDetailsProps {
 }
 
 const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
+  const dispatch = useDispatch();
+
   const [activeSlide, setActiveSlide] = React.useState(0);
   const [doctorsData, setDoctorsData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  //USE YOUR OWN URL!!
+  const url = "http://192.168.100.53:8083/altabibconnect/";
 
   useEffect(() => {
     // Axios GET request to fetch doctors data
     axios
       .get(
-        "http://192.168.10.9:8083/altabibconnect/getAllBasicData?token=1658475019378f0b7fca1-8dc1-4dab-ab9e-fee497f6e918",
+        `${url}getAllBasicData?token=1658475019378f0b7fca1-8dc1-4dab-ab9e-fee497f6e918`,
       )
       .then((res) => {
         setDoctorsData(res.data.data.doctors);
@@ -49,76 +53,21 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
       });
   }, []);
 
-  const dispatch = useDispatch();
-
   const handleGetAppointment = (doc: any, clinic: any) => {
     dispatch(addAppointment(doc, clinic));
     router.navigate("BookAppointment");
   };
 
-  const Doctors = [];
-
-  var dataFin = {};
-
-  // axios
-  // .get(
-  //   "http://192.168.10.9:8083/altabibconnect/getAllBasicData?token=1658475019378f0b7fca1-8dc1-4dab-ab9e-fee497f6e918",
-  //   )
-  //   .then((res) => {
-  //     console.log("Response Data:",JSON.stringify(res.data.data,null,2));
-  //     setDoctorsData(res.data.data.doctors);
-
-  //     //const doctors = JSON.parse(res.data.data.doctors)
-
-  //     //const responseData = res.data.data;
-
-  //     //Doctors.push(responseData.doctors);
-
-  //     // Iterate over each doctor
-  //     // responseData.doctors.forEach((item: any) => {
-  //       //   // Log Doctor Name
-  //       //   console.log("Doctor Name:", item.name);s
-
-  //       //   // Log Clinic Names, Charges, Start Time, End Time
-  //       //   item.doctorClinicDALS.forEach((clinic: any) => {
-  //         //     console.log("Clinic Name:", clinic.clinic.name);
-  //         //     console.log("Charges:", clinic.charges);
-  //         //     console.log("Start Time:", clinic.startTime);
-  //         //     console.log("End Time:", clinic.endTime);
-  //         //     console.log("=====================================");
-  //         //   });
-
-  //         //   // Separate doctors for better readability
-  //         //   console.log("-------------------------------------");
-  //         // });
-
-  //         Doctors.forEach((item: any) => {
-  //           dataFin = item
-  //           item.forEach((doclists: any) => {
-  //             console.log("Names: ", doclists.name);
-  //             //console.log("Clinics: ", JSON.stringify(doclists.doctorClinicDALS,null,2));
-  //             doclists.doctorClinicDALS.forEach((clinicList: any) => {
-  //               console.log("Clinic Name: ", clinicList.clinic.name);
-  //             });
-  //             console.log("-------------------------------------");
-  //           });
-  //         }
-
-  //         );
-  //       });
-
   return (
     <Card
       borderWidth={1}
-      borderColor={colors.primary}
+      borderColor={"$blue11"}
       flex={1}
       padding={10}
       justifyContent="center"
       alignItems="center"
-      backgroundColor={colors.primary}
+      backgroundColor={"$blue11"}
       animation="bouncy"
-      width={cardWidth}
-      height={cardWidth}
     >
       {loading ? (
         <View
@@ -132,7 +81,7 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
             width: cardWidth,
           }}
         >
-          <Text style={[fonts.headingSmall, FontColors.whiteFont]}>
+          <Text style={[fonts.heading, FontColors.whiteFont]}>
             Loading Doctors
           </Text>
           <Progress.CircleSnail
@@ -145,12 +94,13 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
         <View style={{ alignItems: "center" }}>
           <Text style={[FontColors.whiteFont, fonts.heading]}>{heading}</Text>
           <FlatList
+            horizontal={false}
             style={{ marginBottom: 10 }}
             decelerationRate="normal"
             data={doctorsData}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item: any) => item.id.toString()}
             renderItem={({ item }) => (
-              <View style={{ paddingVertical: 10, gap: 10 }}>
+              <View style={{ paddingVertical: 10, gap: 15 }}>
                 {/* Doctor's information */}
                 <View
                   style={{
@@ -165,43 +115,52 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
                     style={{ borderRadius: 50, width: 100, height: 100 }}
                   />
                   <View style={{ marginLeft: 10 }}>
-                    <Text style={[FontColors.whiteFont, fonts.normalBold]}>
+                    <Text style={[FontColors.whiteFont, fonts.sub]}>
                       {item.name}
                     </Text>
-                    <Text style={{ color: "#f0f0f0" }}>{item.address}</Text>
+                    <Text style={[FontColors.whiteFont, fonts.normal]}>
+                      {item.address}
+                    </Text>
                   </View>
                 </View>
-                {/* Separator */}
-                <Separator marginVertical={15} borderColor={"white"} />
 
                 {/* Clinics FlatList */}
                 <FlatList
                   snapToAlignment="center"
                   snapToInterval={cardWidth - 22}
                   decelerationRate={"fast"}
-                  //style={{ width: cardWidth - 22 }}
+                  style={{ width: cardWidth - 22 }}
                   showsHorizontalScrollIndicator={false}
                   horizontal
                   data={item.doctorClinicDALS}
                   keyExtractor={(clinic) => clinic.id.toString()}
                   renderItem={({ item: clinic }) => (
-                    <View style={{ width: cardWidth - 22 }}>
-                      <Text style={[fonts.normalBold, FontColors.whiteFont]}>
-                        Clinic Name:{" "}
+                    <View
+                      style={{
+                        borderColor: "white",
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        padding: 10,
+                        width: cardWidth - 22,
+                        gap: 5,
+                      }}
+                    >
+                      <Text style={[fonts.sub, FontColors.whiteFont]}>
+                        Clinic Name:
                       </Text>
-                      <Text style={[fonts.normal, { color: "#f0f0f0" }]}>
+                      <Text style={[fonts.normal, { color: "white" }]}>
                         {clinic.clinic.name}
                       </Text>
-                      <Text style={[fonts.normalBold, FontColors.whiteFont]}>
+                      <Text style={[fonts.sub, FontColors.whiteFont]}>
                         Charges:
                       </Text>
-                      <Text style={[fonts.normal, { color: "#f0f0f0" }]}>
+                      <Text style={[fonts.normal, { color: "white" }]}>
                         ${clinic.charges}
                       </Text>
-                      <Text style={[fonts.normalBold, FontColors.whiteFont]}>
+                      <Text style={[fonts.sub, FontColors.whiteFont]}>
                         Timings:
                       </Text>
-                      <Text style={[fonts.normal, { color: "#f0f0f0" }]}>
+                      <Text style={[fonts.normal, { color: "white" }]}>
                         {clinic.startTime} - {clinic.endTime}
                       </Text>
                       {/* Additional clinic information can be displayed here */}
@@ -269,7 +228,7 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
           />
           <XStack alignSelf="center" alignItems="center" gap={15}>
             <Text style={[fonts.normal, { color: "#ffffff" }]}>
-              Swipe to see more
+              Swipe for more
             </Text>
             <AntDesign name="rightcircle" size={20} color={colors.white} />
           </XStack>
@@ -283,6 +242,7 @@ export default DocDetails;
 
 const styles = StyleSheet.create({
   paginationContainer: {
+    width: cardWidth - 22,
     paddingVertical: 8,
   },
   paginationDot: {

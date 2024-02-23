@@ -36,7 +36,7 @@ const GenderPick: React.FC<GenderPickProps> = ({ genvalue, onGenderChange }) => 
         dropDownContainerStyle={genderPicker.dropDownContainerStyle}
         closeAfterSelecting={true}
         TickIconComponent={() => (
-          <MaterialCommunityIcons name="check" size={24} color="#0ab99c" />
+          <MaterialCommunityIcons name="check" size={24} color="#4E54DA" />
         )}
         placeholderStyle={genderPicker.placeholderStyle}
         listItemLabelStyle={genderPicker.listItemLabelStyle}
