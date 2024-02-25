@@ -3,7 +3,7 @@ import { Text, XStack } from "tamagui";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
-const MenuBar = ({ title }) => {
+const MenuBar = ({ title }: { title: string }) => {
   return (
     <XStack alignItems="center" marginVertical={10}>
       <TouchableOpacity>

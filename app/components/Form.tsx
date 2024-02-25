@@ -1,5 +1,7 @@
 import {
   Dimensions,
+  Keyboard,
+  Modal,
   Text,
   TextInput,
   TouchableOpacity,
@@ -14,12 +16,12 @@ import { Separator, XStack } from "tamagui";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 import { YStack } from "tamagui";
-import { DateType } from "react-native-ui-datepicker";
-import DatePicker from "./DatePicker";
+import DateTimePicker, { DateType } from "react-native-ui-datepicker";
 import GenderPick from "./GenderPick";
 import axios from "axios";
 import * as Progress from "react-native-progress";
 import { buttons, colors, fontSizes, fontsFams } from "../styles";
+import { BlurView } from "expo-blur";
 
 const screenwidth = Dimensions.get("screen").width;
 
@@ -30,7 +32,11 @@ const Form = () => {
   const [pass, setPass] = useState("");
   const [gender, setGender] = useState("");
   const [verifyPass, setverifyPass] = useState("");
-  const [selectedDate, setSelectedDate] = useState<DateType>(dayjs());
+
+  const [date, setDate] = useState<DateType>(dayjs());
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const currDate = date ? dayjs(date).format("DD-MMM-YYYY") : "Choose your Date of Birth";
 
   const isEmptyString = (str: string) => str.trim() === "";
   const validateNum = (num: string) => num.length >= 11;
@@ -42,7 +48,8 @@ const Form = () => {
     password: string,
     verifyPass: string,
     gender: string,
-  ) => ![num, name, password, verifyPass, gender].some(isEmptyString);
+    date: string,
+  ) => ![num, name, password, verifyPass, gender, date].some(isEmptyString);
 
   const validateSubmit = (
     num: string,
@@ -50,9 +57,10 @@ const Form = () => {
     password: string,
     verifyPass: string,
     gender: string,
+    date: string,
   ) =>
     validateNum(num) &&
-    emptyFields(num, name, password, verifyPass, gender) &&
+    emptyFields(num, name, password, verifyPass, gender, date) &&
     password === verifyPass;
 
   //Input Changing
@@ -62,10 +70,9 @@ const Form = () => {
   const handleGenderChange = (selectedGender: string) =>
     setGender(selectedGender);
   const handleNameChange = (name: string) => setName(name);
-  const handleDateChange = (date: DateType) => setSelectedDate(date);
 
   const handleSubmit = () => {
-    if (!validateSubmit(num, name, pass, verifyPass, gender)) {
+    if (!validateSubmit(num, name, pass, verifyPass, gender, currDate)) {
       Dialog.show({
         type: ALERT_TYPE.DANGER,
         title: "Error",
@@ -84,14 +91,14 @@ const Form = () => {
     gender: `${gender}`,
     password: `${pass}`,
     cellNumber: `${num}`,
-    dob: "1998-08-16",
+    dob: `${currDate}`
   };
 
   const encodedPatient = encodeURIComponent(JSON.stringify(patient));
 
   //USE YOUR OWN URL!!
-  const url = `http://192.168.100.53:8083`;
-  const loginUrl = `${url}/registerPatient?patient=${encodedPatient}&uuid=123&type=2`;
+  const url = `http://192.168.100.10:8083`;
+  const loginUrl = `${url}/altabibconnect/registerPatient?patient=${encodedPatient}&uuid=123&type=2`;
 
   const fetchRegisterData = () => {
     axios
@@ -152,40 +159,42 @@ const Form = () => {
       gap={15}
       width={"100%"}
     >
-      {loading ? (
-        <View
-          style={{
-            borderColor: "lightgray",
-            borderRadius: 10,
-            borderWidth: 2,
-            alignSelf: "center",
-            position: "absolute",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "white",
-            zIndex: 1000,
-            gap: 20,
-            height: screenwidth * 0.75,
-            width: screenwidth * 0.75,
-          }}
-        >
-          <Text style={[fonts.headingSmall, FontColors.primaryFont]}>
-            Logging In
-          </Text>
-          <Progress.CircleSnail
-            thickness={7}
-            size={100}
-            color={["#0ab99c", "#0044ff", "#ffa600"]}
-          />
-        </View>
-      ) : null}
+      {loading
+        ? (Keyboard.dismiss(),
+          (
+            <View
+              style={{
+                borderColor: "lightgray",
+                borderRadius: 10,
+                borderWidth: 2,
+                alignSelf: "center",
+                position: "absolute",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "white",
+                zIndex: 1000,
+                gap: 20,
+                height: screenwidth * 0.75,
+                width: screenwidth * 0.75,
+              }}
+            >
+              <Text style={[fonts.headingSmall, FontColors.primaryFont]}>
+                Logging In
+              </Text>
+              <Progress.CircleSnail
+                thickness={7}
+                size={100}
+                color={["#0ab99c", "#0044ff", "#ffa600"]}
+              />
+            </View>
+          ))
+        : null}
       <XStack
         borderColor={"#ebebeb"}
         borderWidth={1}
         borderRadius={5}
         gap={10}
         backgroundColor={"white"}
-        borderRadius={5}
         padding={10}
       >
         <AntDesign name="phone" size={24} color={colors.primary} />
@@ -231,6 +240,17 @@ const Form = () => {
       >
         <AntDesign name="calendar" size={24} color={colors.primary} />
         <Separator alignSelf="stretch" vertical borderColor={"lightgray"} />
+
+        {/* DATE PICKER */}
+
+        <TouchableOpacity
+          style={[buttons.primaryBtn, { flex: 1 }]}
+          onPress={() => setIsModalVisible(true)}
+        >
+          <Text style={{ color: "white", fontFamily: "ArialB" }}>
+            {date ? dayjs(date).format("MMMM DD, YYYY") : "Choose Date"}
+          </Text>
+        </TouchableOpacity>
       </XStack>
       <XStack
         borderColor={"#ebebeb"}
@@ -297,15 +317,90 @@ const Form = () => {
       </TouchableOpacity>
 
       <View style={RegLog.onPressStyle}>
-      <Text style={[{fontSize:fontSizes.SM, fontFamily:fontsFams.poppinsMedium ,color:colors.primary}]}>
+        <Text
+          style={[
+            {
+              fontSize: fontSizes.SM,
+              fontFamily: fontsFams.poppinsMedium,
+              color: colors.primary,
+            },
+          ]}
+        >
           Already have an account?
         </Text>
         <Link href="/LoginScreen" asChild>
           <TouchableOpacity>
-          <Text style={[{fontSize:fontSizes.SM, fontFamily:fontsFams.poppinsMedium ,color:colors.linkBlue}]}>Login</Text>
+            <Text
+              style={[
+                {
+                  fontSize: fontSizes.SM,
+                  fontFamily: fontsFams.poppinsMedium,
+                  color: colors.linkBlue,
+                },
+              ]}
+            >
+              Login
+            </Text>
           </TouchableOpacity>
         </Link>
       </View>
+
+      {/* MODAL */}
+
+      <Modal
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => setIsModalVisible(false)}
+        animationType="fade"
+      >
+        <BlurView
+          style={{
+            padding: 15,
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          experimentalBlurMethod="dimezisBlurView"
+        >
+          <View
+            style={{ backgroundColor: "white", padding: 10, borderRadius: 10 }}
+          >
+            <DateTimePicker
+              dayContainerStyle={{
+                borderWidth: 2,
+                borderRadius: 10,
+                borderColor: "#f3f3f3",
+              }}
+              headerButtonStyle={{ backgroundColor: "white", borderRadius: 7 }}
+              headerContainerStyle={{
+                paddingHorizontal: 5,
+                backgroundColor: "#4E54DA",
+                borderRadius: 10,
+              }}
+              headerTextStyle={{
+                color: "white",
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
+              headerButtonColor="#4E54DA"
+              selectedItemColor="#4E54DA"
+              mode="single"
+              date={date}
+              onChange={(date) => setDate(date.date)}
+            />
+            <XStack>
+              <TouchableOpacity
+                style={[buttons.primaryBtn, { flex: 1 }]}
+                onPress={() => setIsModalVisible(false)}
+              >
+                <Text style={{ color: "white", fontFamily: "ArialB" }}>
+                  Close
+                </Text>
+              </TouchableOpacity>
+            </XStack>
+          </View>
+        </BlurView>
+      </Modal>
     </YStack>
   );
 };

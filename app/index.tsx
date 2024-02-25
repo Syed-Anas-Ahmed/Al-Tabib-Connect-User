@@ -4,12 +4,34 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as SecureStore from "expo-secure-store";
 import MainNavigator from "./navigator/MainNavigator";
 import LoginScreen from "./LoginScreen";
+import { useFonts } from "expo-font";
 
 const Stack = createNativeStackNavigator();
 
 export default function index() {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [loaded] = useFonts({
+    Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
+    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
+
+    Poppins: require("../assets/fonts/Poppins-Black.ttf"),
+    PoppinsRegular: require("../assets/fonts/Poppins-Regular.ttf"),
+    PoppinsSemiBold: require("../assets/fonts/Poppins-SemiBold.ttf"),
+    PoppinsMedium: require("../assets/fonts/Poppins-Medium.ttf"),
+
+    Arial: require("../assets/fonts/Arial-Regular.ttf"),
+    ArialL: require("../assets/fonts/Arial-Light.ttf"),
+    ArialB: require("../assets/fonts/Arial-Bold.ttf"),
+    ArialXB: require("../assets/fonts/Arial-XBold.ttf"),
+
+    Merri: require("../assets/fonts/Merriweather-Regular.ttf"),
+    MerriL: require("../assets/fonts/Merriweather-Light.ttf"),
+    MerriB: require("../assets/fonts/Merriweather-Bold.ttf"),
+
+    Domine: require("../assets/fonts/Domine.ttf"),
+  });
 
   const checkToken = async () => {
     try {
@@ -29,27 +51,19 @@ export default function index() {
     });
   }, []);
 
-  if (loading) {
+  if (loading || !loaded) {
     return null;
   } else {
     return (
       <Stack.Navigator>
-        {isLoggedIn ? (
-          <Stack.Screen
-            name="MenuScreen"
-            component={MainNavigator}
-            options={{
-              headerShown: false,
-              contentStyle: { backgroundColor: "white" },
-            }}
-          />
-        ) : (
-          <Stack.Screen
-            name="LoginScreen"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-        )}
+        <Stack.Screen
+          name="MenuScreen"
+          component={isLoggedIn ? MainNavigator : LoginScreen}
+          options={{
+            headerShown: false,
+            contentStyle: { backgroundColor: "white" },
+          }}
+        />
       </Stack.Navigator>
     );
   }

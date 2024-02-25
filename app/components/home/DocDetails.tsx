@@ -34,7 +34,7 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
   const [loading, setLoading] = useState(true);
 
   //USE YOUR OWN URL!!
-  const url = "http://192.168.100.53:8083/altabibconnect/";
+  const url = "http://192.168.100.10:8083/altabibconnect/";
 
   useEffect(() => {
     // Axios GET request to fetch doctors data

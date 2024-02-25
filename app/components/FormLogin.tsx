@@ -1,5 +1,6 @@
 import {
   Dimensions,
+  Keyboard,
   Text,
   TextInput,
   TouchableOpacity,
@@ -9,10 +10,8 @@ import React, { useState } from "react";
 import {
   FontColors,
   RegLog,
-  btns,
   fonts,
   form,
-  themeColors,
 } from "../constants";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import * as SecureStore from "expo-secure-store";
@@ -76,7 +75,7 @@ const FormLogin = () => {
   const currentTimeStamp = getCurrentTimestamp();
 
   //USE YOUR OWN URL!!
-  const url = `http://192.168.100.53:8083`;
+  const url = `http://192.168.100.10:8083`;
 
   const loginUrl = `${url}/altabibconnect/login?username=${num}&password=${pass}&UUID=${currentTimeStamp}&type=2`;
 
@@ -85,7 +84,6 @@ const FormLogin = () => {
       .get(loginUrl)
       .then((response) => {
         if (response.status === 200) {
-          console.log("Current TimeStamp: ", currentTimeStamp);
           console.log(
             "RESPONSE STATUS: ",
             JSON.stringify(response.status, null, 2),
@@ -130,6 +128,7 @@ const FormLogin = () => {
   return (
     <View style={form.layout}>
       {loading ? (
+        Keyboard.dismiss(),
         <View
           style={{
             borderColor: "lightgray",
