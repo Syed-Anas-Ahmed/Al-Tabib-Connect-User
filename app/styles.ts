@@ -1,8 +1,8 @@
-import { color } from "@tamagui/themes";
 import { StyleSheet } from "react-native";
 
 const colors = {
   primary: "#4E54DA",
+  primaryDark: "#2d3181",
   gradPrim: "#4e55da8d",
   gradSec: "#00be9e60",
   black: "#525252",

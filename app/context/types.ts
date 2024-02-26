@@ -18,4 +18,19 @@ export interface Doctor {
     doctorId: number;
     clinicId: number;
   }
+
+  export interface Token{
+    token: string;
+  }
   
+  export interface Patient{
+    id:string,
+    name:string
+  }
+
+  export interface User{
+    //id:string,
+    name:string
+    pass:string
+    token:string
+  }

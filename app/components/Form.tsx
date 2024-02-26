@@ -22,10 +22,16 @@ import axios from "axios";
 import * as Progress from "react-native-progress";
 import { buttons, colors, fontSizes, fontsFams } from "../styles";
 import { BlurView } from "expo-blur";
+import { url } from "~/env";
+import { useDispatch } from "react-redux";
+import { addToken } from "../context/actions/tokenActions";
 
 const screenwidth = Dimensions.get("screen").width;
 
 const Form = () => {
+  const dispatch = useDispatch();
+
+
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState("03");
   const [name, setName] = useState("");
@@ -36,7 +42,7 @@ const Form = () => {
   const [date, setDate] = useState<DateType>(dayjs());
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const currDate = date ? dayjs(date).format("DD-MMM-YYYY") : "Choose your Date of Birth";
+  const currDate = date ? dayjs(date).format("DD-MMM-YYYY") : "Date of Birth";
 
   const isEmptyString = (str: string) => str.trim() === "";
   const validateNum = (num: string) => num.length >= 11;
@@ -97,14 +103,18 @@ const Form = () => {
   const encodedPatient = encodeURIComponent(JSON.stringify(patient));
 
   //USE YOUR OWN URL!!
-  const url = `http://192.168.100.10:8083`;
-  const loginUrl = `${url}/altabibconnect/registerPatient?patient=${encodedPatient}&uuid=123&type=2`;
+  const uri = url;
+
+  const loginUrl = `${uri}registerPatient?patient=${encodedPatient}&uuid=123&type=2`;
 
   const fetchRegisterData = () => {
     axios
       .get(loginUrl)
       .then((response) => {
         if (response.status === 200) {
+
+          dispatch(addToken(response.data.data.token));
+
           console.log(
             "RESPONSE STATUS: ",
             JSON.stringify(response.status, null, 2),

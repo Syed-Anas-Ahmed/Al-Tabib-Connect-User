@@ -21,10 +21,16 @@ import { Link, router } from "expo-router";
 import axios from "axios";
 import * as Progress from "react-native-progress";
 import { buttons, colors, fontSizes, fontsFams } from "../styles";
+import { url } from "~/env";
+import { useDispatch } from "react-redux";
+import { addToken } from "../context/actions/tokenActions";
+import { addUser } from "../context/actions/userActions";
 
 const screenwidth = Dimensions.get("screen").width;
 
 const FormLogin = () => {
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState("");
   const [pass, setPass] = useState("");
@@ -75,15 +81,26 @@ const FormLogin = () => {
   const currentTimeStamp = getCurrentTimestamp();
 
   //USE YOUR OWN URL!!
-  const url = `http://192.168.100.10:8083`;
 
-  const loginUrl = `${url}/altabibconnect/login?username=${num}&password=${pass}&UUID=${currentTimeStamp}&type=2`;
+  const uri = url;
+
+  const loginUrl = `${uri}login?username=${num}&password=${pass}&UUID=${currentTimeStamp}&type=2`;
 
   const fetchLoginData = () => {
     axios
       .get(loginUrl)
       .then((response) => {
         if (response.status === 200) {
+
+          const USER = {
+            name: num,
+            pass: pass,
+            token: response.data.data.token,
+          }
+          
+          dispatch(addToken(response.data.data.token));
+          dispatch(addUser(USER));
+
           console.log(
             "RESPONSE STATUS: ",
             JSON.stringify(response.status, null, 2),

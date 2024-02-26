@@ -1,0 +1,1 @@
+export const url = "http://192.168.10.11:8083/altabibconnect/"

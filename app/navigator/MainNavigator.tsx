@@ -10,6 +10,9 @@ import {
 } from "@expo/vector-icons";
 import MenuScreen from "../MenuScreen";
 import Family from "../Family";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
+const Drawer = createDrawerNavigator();
 
 const Tab = createBottomTabNavigator();
 

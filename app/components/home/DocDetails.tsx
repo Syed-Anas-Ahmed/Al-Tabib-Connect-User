@@ -18,15 +18,17 @@ import { addAppointment } from "../../context/actions/appointmentActions";
 import axios from "axios";
 import { colors } from "~/app/styles";
 import * as Progress from "react-native-progress";
+import { url } from "~/env";
 
 const cardWidth = (Dimensions.get("window").width / 2.2) * 2 + 10;
-const screenwidth = Dimensions.get("screen").width;
+
 
 interface DocDetailsProps {
   heading: string;
 }
 
 const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
+  
   const dispatch = useDispatch();
 
   const [activeSlide, setActiveSlide] = React.useState(0);
@@ -34,13 +36,13 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
   const [loading, setLoading] = useState(true);
 
   //USE YOUR OWN URL!!
-  const url = "http://192.168.100.10:8083/altabibconnect/";
+  const uri = url;
 
   useEffect(() => {
     // Axios GET request to fetch doctors data
     axios
       .get(
-        `${url}getAllBasicData?token=1658475019378f0b7fca1-8dc1-4dab-ab9e-fee497f6e918`,
+        `${uri}getAllBasicData?token=1658475019378f0b7fca1-8dc1-4dab-ab9e-fee497f6e918`,
       )
       .then((res) => {
         setDoctorsData(res.data.data.doctors);
@@ -55,18 +57,19 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
 
   const handleGetAppointment = (doc: any, clinic: any) => {
     dispatch(addAppointment(doc, clinic));
-    router.navigate("BookAppointment");
+    router.push("/(tabs)/(home)/SetAppointment");
   };
 
   return (
     <Card
+    unstyled
       borderWidth={1}
-      borderColor={"$blue11"}
+      borderColor={colors.primary}
       flex={1}
       padding={10}
       justifyContent="center"
       alignItems="center"
-      backgroundColor={"$blue11"}
+      backgroundColor={"white"}
       animation="bouncy"
     >
       {loading ? (
@@ -81,18 +84,18 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
             width: cardWidth,
           }}
         >
-          <Text style={[fonts.heading, FontColors.whiteFont]}>
+          <Text style={[fonts.heading, FontColors.primaryFont]}>
             Loading Doctors
           </Text>
           <Progress.CircleSnail
             thickness={7}
             size={100}
-            color={["#b3b7ff", "#FFFF", "#ffdda3"]}
+            color={["red", colors.primary, colors.yellow]}
           />
         </View>
       ) : (
         <View style={{ alignItems: "center" }}>
-          <Text style={[FontColors.whiteFont, fonts.heading]}>{heading}</Text>
+          <Text style={[FontColors.blue, fonts.heading]}>{heading}</Text>
           <FlatList
             horizontal={false}
             style={{ marginBottom: 10 }}
@@ -115,10 +118,10 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
                     style={{ borderRadius: 50, width: 100, height: 100 }}
                   />
                   <View style={{ marginLeft: 10 }}>
-                    <Text style={[FontColors.whiteFont, fonts.sub]}>
+                    <Text style={[FontColors.blue, fonts.sub]}>
                       {item.name}
                     </Text>
-                    <Text style={[FontColors.whiteFont, fonts.normal]}>
+                    <Text style={[FontColors.blackFont, fonts.normal]}>
                       {item.address}
                     </Text>
                   </View>
@@ -137,7 +140,7 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
                   renderItem={({ item: clinic }) => (
                     <View
                       style={{
-                        borderColor: "white",
+                        borderColor: "#ebebeb",
                         borderWidth: 2,
                         borderRadius: 10,
                         padding: 10,
@@ -145,22 +148,22 @@ const DocDetails: React.FC<DocDetailsProps> = ({ heading }) => {
                         gap: 5,
                       }}
                     >
-                      <Text style={[fonts.sub, FontColors.whiteFont]}>
+                      <Text style={[fonts.sub, FontColors.blue]}>
                         Clinic Name:
                       </Text>
-                      <Text style={[fonts.normal, { color: "white" }]}>
+                      <Text style={[fonts.normal, { color: "black" }]}>
                         {clinic.clinic.name}
                       </Text>
-                      <Text style={[fonts.sub, FontColors.whiteFont]}>
+                      <Text style={[fonts.sub, FontColors.blue]}>
                         Charges:
                       </Text>
-                      <Text style={[fonts.normal, { color: "white" }]}>
+                      <Text style={[fonts.normal, { color: "black" }]}>
                         ${clinic.charges}
                       </Text>
-                      <Text style={[fonts.sub, FontColors.whiteFont]}>
+                      <Text style={[fonts.sub, FontColors.blue]}>
                         Timings:
                       </Text>
-                      <Text style={[fonts.normal, { color: "white" }]}>
+                      <Text style={[fonts.normal, { color: "black" }]}>
                         {clinic.startTime} - {clinic.endTime}
                       </Text>
                       {/* Additional clinic information can be displayed here */}
@@ -249,9 +252,9 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 10,
-    backgroundColor: colors.white,
+    backgroundColor: colors.primary,
   },
   paginationInactiveDot: {
-    backgroundColor: "#ffffff",
+    backgroundColor: colors.labelGray,
   },
 });

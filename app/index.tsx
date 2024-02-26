@@ -5,12 +5,19 @@ import * as SecureStore from "expo-secure-store";
 import MainNavigator from "./navigator/MainNavigator";
 import LoginScreen from "./LoginScreen";
 import { useFonts } from "expo-font";
+import { Link, useRouter } from "expo-router";
+import { NavigationContainer } from "@react-navigation/native";
+import { Button, ButtonText, View } from "tamagui";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Stack = createNativeStackNavigator();
 
 export default function index() {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [name, setName] = useState("");
+
+  const router = useRouter();
 
   const [loaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
@@ -55,16 +62,24 @@ export default function index() {
     return null;
   } else {
     return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="MenuScreen"
-          component={isLoggedIn ? MainNavigator : LoginScreen}
-          options={{
-            headerShown: false,
-            contentStyle: { backgroundColor: "white" },
-          }}
-        />
-      </Stack.Navigator>
+      //   <Stack.Navigator>
+      //     <Stack.Screen
+      //       name="MenuScreen"
+      //       component={isLoggedIn ? MainNavigator : LoginScreen}
+      //       options={{
+      //         headerShown: false,
+      //         contentStyle: { backgroundColor: "white" },
+      //       }}
+      //     />
+      // </Stack.Navigator>
+       <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+         <Link href={"/(tabs)/(home)/Home"} asChild>
+           <Button>
+             <ButtonText>Go to Tabs</ButtonText>
+           </Button>
+         </Link>
+         {/* <Stack.Screen name="/(tabs)"/> */}
+       </SafeAreaView>
     );
   }
 }
